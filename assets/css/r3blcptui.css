@@ -233,6 +233,7 @@
 
 .r3bl-admin-title-wrap {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: flex-start;
   gap: 12px;
@@ -510,6 +511,10 @@
 }
 .r3bl-admin-list-options .r3bl-option-icon {
   font-size: 30px;
+}
+
+.r3bl-admin-title-wrap .wp-header-end {
+  width: 100%;
 }
 
 /*# sourceMappingURL=r3blcptui.css.map */

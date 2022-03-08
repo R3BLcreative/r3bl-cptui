@@ -31,6 +31,7 @@
 <div class="r3bl-admin-title-wrap wrap">
 	<div class="dashicons dashicons-plus-alt r3bl-admin-title-icon"></div>
 	<h1 class="heading r3bl-admin-title"><? echo get_admin_page_title(); ?></h1>
+	<hr class="wp-header-end">
 </div>
 
 <p class="r3bl-admin-intro-text">Fill out the required form fields <em>(designated with an * asterisk)</em> below to create a quick and easy <em>"custom post type"</em> that will be immediately accessible in the WordPress Admin menu. Take it one more step and control advanced features like adding custom <em>"taxonomies"</em> and/or turning on some visibility and access settings. <strong>HAPPY CODING!!!</strong></p>

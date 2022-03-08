@@ -32,6 +32,7 @@
 	<div class="dashicons dashicons-list-view r3bl-admin-title-icon"></div>
 	<h1 class="heading r3bl-admin-title"><? echo get_admin_page_title(); ?></h1>
 	<a href="<? echo admin_url('admin.php'); ?>?page=r3blcptui-add" class="page-title-action r3bl-admin-add-btn">Add New</a>
+	<hr class="wp-header-end">
 </div>
 
 <div class="r3blcptui-table-wrap wrap">

@@ -26,8 +26,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  * 
- * TODO: Need to be able to validate unique tax slug
- * TODO: Figure out how to combine add and edit templates into one template
  */
 
 if(!class_exists('WP_List_Table')) {
@@ -41,6 +39,9 @@ if(!class_exists('R3BLCPTUI_List_Table')) {
 if(!class_exists('R3BLCPTUI_CPTS')) {
 	require_once(plugin_dir_path(__FILE__).'/inc/class_r3blcptui_cpts.php');
 }
+
+require_once __DIR__ . '/vendor/fortawesome/wordpress-fontawesome/index.php';
+use function FortAwesome\fa;
 
 if(!class_exists('R3BLCPTUI')) {
 	class R3BLCPTUI {
@@ -57,7 +58,12 @@ if(!class_exists('R3BLCPTUI')) {
 			}else{
 				// HOOKS
 				register_activation_hook(__FILE__, [$this, 'activate']);
+				register_activation_hook(__FILE__, 'FortAwesome\FontAwesome_Loader::initialize');
+
 				register_deactivation_hook(__FILE__, [$this, 'deactivate']);
+				register_deactivation_hook(__FILE__, 'FortAwesome\FontAwesome_Loader::maybe_deactivate');
+
+				register_uninstall_hook(__FILE__,'FortAwesome\FontAwesome_Loader::maybe_uninstall');
 
 				// ACTIONS
 				add_action('init', [$this, 'registerCPTS']);
@@ -71,6 +77,16 @@ if(!class_exists('R3BLCPTUI')) {
 				// FILTERS
 				add_filter('set-screen-option', [$this,'r3blcptui_set_option'], 10, 3);
 				add_filter('default_hidden_columns', [$this, 'default_hidden_columns'], 10, 2);
+
+				// FONT AWESOME
+				add_action(
+					'font_awesome_preferences',
+					function() {
+						fa()->register([
+							'name' => 'R3BL CPT UI'
+						]);
+					}
+				);
 			}
 		}
 
@@ -127,7 +143,7 @@ if(!class_exists('R3BLCPTUI')) {
 		 * * Deactivation Method
 		 */
 		public function deactivate() {
-			// SOMETHING??
+			// Something
 		}
 
 		/**
