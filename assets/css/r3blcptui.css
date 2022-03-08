@@ -1,0 +1,515 @@
+/*------------------------------------*\
+    NAMESPACE
+
+    This mixin encapsulates CSS within 
+    a namespace to prevent outside
+    conflicts as much as possible.
+\*------------------------------------*/
+/*------------------------------------*\
+    COLOR
+
+    Pass in a group name and a key
+    to get a value. 
+
+    E.G color(field, background) will return
+    the background item in the field group.
+
+    Colors are defined in $colors in _config.scss
+\*------------------------------------*/
+.boilerform .c-select-field__menu, .boilerform .c-input-field {
+  background: #ffffff;
+  border: 1px solid #cccccc;
+  padding: 11px 15px 10px 15px;
+  border-radius: 2px;
+  font-size: 1rem;
+}
+
+.boilerform .c-check-field__input {
+  display: block;
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+  clip: rect(1px 1px 1px 1px);
+  clip: rect(1px, 1px, 1px, 1px);
+  clip-path: inset(1px);
+  white-space: nowrap;
+  position: absolute;
+}
+
+.boilerform {
+  font-size: 16px;
+  color: #141414;
+  border-color: #cccccc;
+}
+.boilerform, .boilerform * {
+  box-sizing: border-box;
+}
+.boilerform [class*=-field] {
+  margin: 0;
+  display: inline-block;
+  vertical-align: middle;
+  white-space: normal;
+  line-height: 1.1;
+  font-family: sans-serif;
+}
+.boilerform [class*=decor] {
+  line-height: 0;
+}
+.boilerform ::-webkit-search-decoration {
+  display: none;
+}
+.boilerform input::-webkit-input-placeholder,
+.boilerform textarea::-webkit-input-placeholder,
+.boilerform select::-webkit-input-placeholder {
+  line-height: normal;
+}
+.boilerform input[type=search] {
+  -webkit-appearance: textfield;
+}
+
+/*------------------------------------*\
+    BUTTON COMPONENT
+
+    Base button styles and reset
+\*------------------------------------*/
+.boilerform .c-button {
+  display: inline-block;
+  border: none;
+  padding: 0;
+  margin: 0;
+  text-decoration: none;
+  background: #666666;
+  color: #ffffff;
+  padding: 11px 25px 10px 25px;
+  font-family: sans-serif;
+  font-size: 1rem;
+  border-radius: 2px;
+  cursor: pointer;
+  text-align: center;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+.boilerform .c-button:hover, .boilerform .c-button:focus {
+  background: #888888;
+}
+
+/*------------------------------------*\
+    CHECK FIELD COMPONENT
+
+    Radio buttons and checkboxes
+\*------------------------------------*/
+.boilerform .c-check-field {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+}
+.boilerform .c-check-field__decor {
+  display: block;
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  background: #eeeeee;
+  border: 1px solid #cccccc;
+  border-radius: 2px;
+  position: relative;
+  cursor: pointer;
+}
+.boilerform .c-check-field__decor:after {
+  content: "";
+  speak: none;
+  display: block;
+  opacity: 0;
+  width: 70%;
+  height: 70%;
+  position: absolute;
+  top: 15%;
+  left: 15%;
+  background: #888888;
+  border-radius: 1px;
+}
+.boilerform .c-check-field__label {
+  padding: 3px 0 0 10px;
+  cursor: pointer;
+}
+.boilerform .c-check-field--radio .c-check-field__decor, .boilerform .c-check-field--radio .c-check-field__decor:after {
+  border-radius: 50%;
+}
+.boilerform .c-check-field__input:checked ~ [class*=decor]:after {
+  opacity: 1;
+}
+.boilerform .c-check-field__input:focus ~ [class*=decor] {
+  outline: 1px dotted #212121;
+  outline: 5px auto -webkit-focus-ring-color;
+}
+.boilerform .c-check-field + .c-check-field {
+  padding-top: 10px;
+}
+
+/*------------------------------------*\
+    INPUT FIELD COMPONENT
+
+    All input based form field elements
+\*------------------------------------*/
+.boilerform .c-input-field[type=number] {
+  padding-right: 11px 15px 10px 15px/2;
+}
+.boilerform .c-input-field--multiline {
+  vertical-align: top;
+  overflow: auto;
+  width: 100%;
+}
+.boilerform .c-input-field--multiline:not([rows]) {
+  min-height: 80px;
+}
+
+/*------------------------------------*\
+    LABEL COMPONENT
+
+    A simple form label
+\*------------------------------------*/
+.boilerform .c-label {
+  display: inline;
+  font-family: sans-serif;
+  font-weight: 700;
+  font-size: 0.88rem;
+}
+.boilerform .c-label[for] {
+  cursor: pointer;
+}
+.boilerform .c-label:after {
+  content: "\a";
+  white-space: pre;
+}
+.boilerform .c-label + [class*=field] {
+  margin-top: 2px;
+}
+
+/*------------------------------------*\
+    SELECT FIELD
+
+    Option driven fields such as 
+    <select> menus
+\*------------------------------------*/
+.boilerform .c-select-field {
+  display: inline-block;
+  position: relative;
+}
+.boilerform .c-select-field__menu {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  padding-right: 45px;
+}
+.boilerform .c-select-field__menu:-moz-focusring {
+  color: transparent;
+  text-shadow: 0 0 0 #141414;
+}
+.boilerform .c-select-field__menu::-ms-expand {
+  display: none;
+}
+.boilerform .c-select-field__decor {
+  position: absolute;
+  top: 50%;
+  right: 15px;
+  pointer-events: none;
+}
+
+/*------------------------------------*\
+    FORM LAYOUT
+
+    The main form layout that gives
+    you rythm, alignment and flow
+\*------------------------------------*/
+.boilerform .is-error,
+.boilerform .is-error [class*=menu],
+.boilerform .is-error [class*=check] {
+  border-color: #cf0b00;
+}
+.boilerform .is-error:focus,
+.boilerform .is-error [class*=menu]:focus,
+.boilerform .is-error [class*=check]:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px #cf0b00;
+}
+
+.r3bl-admin-title-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 12px;
+  margin-bottom: 48px;
+}
+
+.r3bl-admin-title-icon {
+  width: 35px;
+  height: 35px;
+  font-size: 35px;
+}
+
+.r3bl-admin-add-btn {
+  margin-top: 12px;
+}
+
+.r3bl-admin-empty-btn {
+  border-width: 0;
+  border-style: none;
+  padding: 0;
+}
+
+.r3bl-admin-intro-text {
+  margin: 0 60px;
+  font-size: 18px;
+}
+
+.c-admin {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 30px;
+  width: 100%;
+  padding: 30px 60px;
+}
+.c-admin ::-webkit-input-placeholder {
+  color: #cccccc !important;
+  font-weight: 200;
+  font-style: italic;
+}
+.c-admin ::-moz-placeholder {
+  color: #cccccc !important;
+  font-weight: 200;
+  font-style: italic;
+}
+.c-admin :-ms-input-placeholder {
+  color: #cccccc !important;
+  font-weight: 200;
+  font-style: italic;
+}
+.c-admin ::placeholder {
+  color: #cccccc !important;
+  font-weight: 200;
+  font-style: italic;
+}
+.c-admin .slug-notifications {
+  visibility: hidden;
+  opacity: 0;
+  transition: all 0.3s ease-in-out 0s;
+  width: 100%;
+  min-height: 0;
+  font-size: 12px;
+  font-style: italic;
+  line-height: 16px;
+}
+.c-admin .r3blcptui-fld-error label {
+  font-weight: 800;
+  font-style: italic;
+  color: #d63639;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.c-admin .r3blcptui-fld-error input[type] {
+  border: #d636397f dashed 2px;
+}
+.c-admin .r3blcptui-fld-error .slug-notifications {
+  padding: 10px;
+  margin-bottom: 0 !important;
+  visibility: visible;
+  opacity: 1;
+}
+.c-admin__field label {
+  padding-bottom: 12px;
+  color: rgba(0, 0, 0, 0.8);
+}
+.c-admin__field label span {
+  font-weight: 800;
+  font-style: italic;
+  color: #d63639;
+}
+.c-admin__field input[type] {
+  width: 100%;
+}
+.c-admin__field p {
+  font-style: italic;
+  color: rgba(0, 0, 0, 0.4);
+  display: block;
+  width: 100%;
+}
+.c-admin__field--full {
+  width: 100%;
+}
+.c-admin__field--half {
+  width: 45%;
+}
+@media (max-width: 900px) {
+  .c-admin__field--half {
+    width: 100%;
+  }
+}
+.c-admin__field--qrtr {
+  width: 20%;
+}
+@media (max-width: 1000px) {
+  .c-admin__field--qrtr {
+    width: 45%;
+  }
+}
+.c-admin__field--qrtr p {
+  margin-top: 0;
+}
+.c-admin__field--icon .c-icon {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+  gap: 10px;
+}
+.c-admin__field--icon .c-icon .c-icon-picker-field {
+  flex-grow: 1;
+}
+.c-admin__field--icon .c-icon .c-icon-picker-btn {
+  flex-grow: 0;
+}
+.c-admin__field--repeat {
+  margin-top: 35px;
+}
+.c-admin__field--repeat .repeat-taxs {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 25px;
+}
+.c-admin__field--repeat .repeat-field-group {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+  gap: 50px;
+}
+.c-admin__field--repeat .repeat-field-group .repeat-field {
+  flex-grow: 1;
+}
+.c-admin__field--repeat .repeat-field-group .row-num {
+  padding-top: 15px;
+}
+.c-admin__field--repeat .repeat-field-group .c-check-field {
+  padding-top: 10px;
+}
+.c-admin__field--repeat .repeat-add {
+  max-width: 250px !important;
+  padding-left: 25px !important;
+  padding-right: 25px !important;
+  margin-bottom: 25px !important;
+}
+.c-admin__field--repeat .repeat-add span {
+  display: inline-block;
+  width: 32px;
+  text-align: left;
+}
+.c-admin__button {
+  width: 100%;
+  text-align: center;
+}
+.c-admin__button button {
+  width: 100%;
+  padding: 20px !important;
+  text-transform: uppercase;
+  margin-top: 15px !important;
+  transition: all 0.3s ease-in-out 0;
+}
+
+.boilerform .c-check-field__decor {
+  background: white;
+}
+
+.boilerform .c-icon-btn {
+  padding: 0;
+  max-width: 8%;
+  min-width: 40px;
+  height: 40px;
+  display: inline-flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+}
+.boilerform .c-icon-btn:hover, .boilerform .c-icon-btn:focus {
+  color: white !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.boilerform .slug-max-width {
+  max-width: 23%;
+}
+
+.dashicon-picker-container {
+  margin-top: 40px;
+}
+
+.user-notifications {
+  padding: 30px 60px;
+}
+.user-notifications ul.error-list {
+  list-style: disc;
+  margin-left: 25px;
+}
+.user-notifications ul.error-list li {
+  padding: 5px 0;
+}
+.user-notifications .r3bl-notice {
+  background: #fff;
+  border: 1px solid #c3c4c7;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+  margin: 5px 15px 2px;
+  padding: 1px 12px;
+}
+.user-notifications .notice-success {
+  border-left-color: #00a32a;
+  border-left-width: 4px;
+}
+
+.r3blcptui-table-wrap {
+  margin: 0 20px 0 0;
+}
+
+.wp_list_r3blcptui th {
+  font-weight: 400;
+}
+.wp_list_r3blcptui .column-icon {
+  width: 75px;
+  text-align: left;
+}
+.wp_list_r3blcptui .column-id {
+  width: 50px;
+  text-align: left;
+}
+.wp_list_r3blcptui td.column-title {
+  font-size: 16px;
+}
+.wp_list_r3blcptui .column-taxonomies {
+  width: 200px;
+}
+.wp_list_r3blcptui .column-slug {
+  width: 150px;
+}
+.wp_list_r3blcptui .column-options {
+  width: 200px;
+}
+.wp_list_r3blcptui .column-created,
+.wp_list_r3blcptui .column-modified {
+  width: 200px;
+}
+
+.r3bl-admin-list-options {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  gap: 20px;
+  align-items: center;
+  justify-content: flex-start;
+}
+.r3bl-admin-list-options .r3bl-option-icon {
+  font-size: 30px;
+}
+
+/*# sourceMappingURL=r3blcptui.css.map */
