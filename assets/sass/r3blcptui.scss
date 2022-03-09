@@ -132,16 +132,21 @@
 			.c-icon {
 				display: flex;
 				align-items: center;
-				justify-content: space-between;
+				justify-content: flex-start;
 				flex-wrap: nowrap;
-				gap: 10px;
+				gap: 20px;
 
 				.c-icon-picker-field {
-					flex-grow: 1;
+					width: 150px;
 				}
 		
 				.c-icon-picker-btn {
 					flex-grow: 0;
+				}
+
+				#cpt_icon_preview {
+					font-size: 35px;
+					font-weight: 800;
 				}
 			}
 		}
@@ -310,6 +315,14 @@
 	.r3bl-option-icon {
 		font-size: 30px;
 	}
+}
+
+.r3bl-admin-item-icon {
+	font-family: "Font Awesome 5 Pro" !important;
+	font-weight: 800;
+	font-size: 30px;
+	line-height: 30px;
+	height: 40px;
 }
 
 .r3bl-admin-title-wrap .wp-header-end {

@@ -48,6 +48,7 @@ if(!class_exists('R3BLCPTUI')) {
 		public $version = '1.0.0';
 		public $voption = 'r3blcptui_version';
 		public $table = 'r3blcptui';
+		public $CPTS = [];
 
 		/**
 		 * * Constructor Method
@@ -69,7 +70,7 @@ if(!class_exists('R3BLCPTUI')) {
 				add_action('init', [$this, 'registerCPTS']);
 				add_action('plugins_loaded', [$this, 'update']);
 				add_action('admin_menu', [$this, 'adminMenu']);
-				add_action('admin_head',function(){remove_submenu_page('r3blcptui-list','r3blcptui-edit');});
+				add_action('admin_head', [$this, 'adminHead']);
 				add_action('admin_enqueue_scripts', [$this, 'adminScripts']);
 				add_action('wp_ajax_r3blcptui_validate', [$this, 'AJAX_validate']);
 				add_action('wp_ajax_r3blcptui_validate_inline', [$this, 'AJAX_validate_inline']);
@@ -103,23 +104,23 @@ if(!class_exists('R3BLCPTUI')) {
 			// get cpts from db
 			$table = $wpdb->prefix.$this->table;
 			$query = "SELECT * FROM $table WHERE status = 'active'";
-			$results = $wpdb->get_results($query);
+			$results = $wpdb->get_results($query, 'ARRAY_A');
 
-			$cpts = [];
 			if(!empty($results)) {
 				foreach($results as $cpt) {
 					$theCPT = [
-						'k'			=> $cpt->slug,
-						's'			=> $cpt->singular,
-						'p'			=> $cpt->plural,
-						'pos'		=> (int) $cpt->position,
-						'icn'		=> $cpt->icon,
-						'taxs'	=> json_decode($cpt->taxonomies, true),
-						'hier'	=> $cpt->hierarchical,
-						'srch'	=> $cpt->search,
-						'arch'	=> $cpt->archive,
-						'pub'		=> $cpt->public
+						'k'			=> $cpt['slug'],
+						's'			=> $cpt['singular'],
+						'p'			=> $cpt['plural'],
+						'pos'		=> (int) $cpt['position'],
+						'icn'		=> $cpt['icon'],
+						'taxs'	=> json_decode($cpt['taxonomies'], true),
+						'hier'	=> $cpt['hierarchical'],
+						'srch'	=> $cpt['search'],
+						'arch'	=> $cpt['archive'],
+						'pub'		=> $cpt['public']
 					];
+					$this->CPTS[] = $cpt;
 
 					// use class to setup CPTS & TAXS
 					$CPT->addCPT($theCPT);
@@ -324,6 +325,35 @@ if(!class_exists('R3BLCPTUI')) {
 				'r3blcptui-edit',
 				[$this, 'adminEdit']
 			);
+		}
+
+		/**
+		 * * WP Admin Head Method
+		 * 
+		 * Adds neccassary styles and other funtionality
+		 */
+		public function adminHead() {
+			// Hides the Edit page from the plugin menu
+			remove_submenu_page('r3blcptui-list','r3blcptui-edit');
+
+			// Add styles for custom Font Awesome menu icons
+			if(!empty($this->CPTS)) {
+				echo '<style type="text/css" media="screen">';
+				foreach($this->CPTS as $cpt) {
+					echo '#menu-posts-'.$cpt['slug'].' .menu-top div.wp-menu-image:before {
+						font-family: "Font Awesome 5 Pro" !important;
+						content: "'.stripslashes($cpt['icon']).'";
+						font-size: 15px;
+						font-weight: 800;
+					}
+					#menu-posts-'.$cpt['slug'].' .menu-top div.wp-menu-image img {
+						display: none !important;
+						visibility: hidden !important;
+					}';
+				}
+				echo '</style>';
+			}
+			echo 'TEST';
 		}
 
 		/**

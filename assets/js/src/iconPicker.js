@@ -38,17 +38,18 @@
 						var id = icons[i].id;
 						var styles = icons[i].styles;
 						var style = (styles == 'brands') ? 'fab' : 'far';
-						list.append('<div class="icon-picker-icon" data-icon="' + label + '"><a href="#" data-styles="'+styles+'" title="' + unicode + '"><i class="'+style+' fa-' + id + '"></i></a></div>');
+						list.append('<div class="icon-picker-icon" data-icon="' + label + '"><a href="#" data-styles="'+styles+'" data-icon="' + id + '" title="' + unicode + '"><i class="'+style+' fa-' + id + '"></i></a></div>');
 					}
 				}
 
 				$('a', list).on('click', function(e) {
 					e.preventDefault();
 					var title = $(this).attr('title');
+					var icon = $(this).data('icon');
 					target.val('\\' + title);
 					preview
 						.prop('class', 'far')
-						.addClass('fa-' + title);
+						.addClass('fa-' + icon);
 					removePopup();
 				});
 
