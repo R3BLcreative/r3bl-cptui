@@ -231,6 +231,73 @@
   box-shadow: 0 0 0 2px #cf0b00;
 }
 
+.icon-picker-container {
+  position: absolute;
+  width: 350px;
+  height: 290px;
+  font-size: 14px;
+  background-color: #fff;
+  box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.4);
+  overflow: hidden;
+  padding: 15px;
+  box-sizing: border-box;
+  border-radius: 0 12px 12px 12px;
+  border: solid 1px rgba(0, 0, 0, 0.1);
+}
+.icon-picker-container .icon-picker-list {
+  margin: 0;
+  padding: 0;
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  border-radius: 12px;
+}
+.icon-picker-container .icon-picker-list .icon-picker-icon a {
+  display: block;
+  text-decoration: none;
+  color: #373737;
+  padding: 5px 5px;
+  border: 1px solid #dfdfdf;
+}
+.icon-picker-container .icon-picker-list .icon-picker-icon a:hover {
+  border-color: #999;
+  background: #efefef;
+}
+.icon-picker-container .icon-picker-list .icon-picker-icon a i {
+  width: 25px;
+  height: 20px;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-picker-control {
+  height: 32px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+.icon-picker-control a {
+  padding: 5px;
+  text-decoration: none;
+  line-height: 32px;
+  width: 25px;
+  text-align: center;
+  font-size: 22px;
+}
+.icon-picker-control input {
+  font-size: 12px;
+  width: 200px;
+}
+
 .r3bl-admin-title-wrap {
   display: flex;
   flex-wrap: wrap;

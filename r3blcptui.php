@@ -244,8 +244,8 @@ if(!class_exists('R3BLCPTUI')) {
 		public function adminScripts() {
 			// SCRIPTS
 			wp_enqueue_script(
-				'dashicons-picker',
-				plugin_dir_url( __FILE__ ).'assets/js/dashicons-picker.min.js',
+				'icon-picker',
+				plugin_dir_url( __FILE__ ).'assets/js/iconPicker.min.js',
 				['jquery'],
 				strtotime('now')
 			);
@@ -274,12 +274,6 @@ if(!class_exists('R3BLCPTUI')) {
 			wp_enqueue_style(
 				'r3blcptui-css',
 				plugin_dir_url(__FILE__).'assets/css/r3blcptui.css',
-				['dashicons'],
-				strtotime('now')
-			);
-			wp_enqueue_style(
-				'dashicons-picker',
-				plugin_dir_url(__FILE__).'assets/css/dashicons-picker.css',
 				['dashicons'],
 				strtotime('now')
 			);

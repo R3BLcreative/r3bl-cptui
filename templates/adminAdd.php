@@ -87,11 +87,12 @@
 		<div class="wrap c-admin__field c-admin__field--half c-admin__field--icon">
 			<label for="cpt_icon" class="c-label">Menu Icon <span>*</span></label>
 			<div class="c-icon">
-				<button class="button dashicons-picker c-icon-picker-btn c-button c-icon-btn" type="button"  data-target="#cpt_icon"><span class="dashicons dashicons-search"></span></button>
-				<input id="cpt_icon" class="c-input-field c-icon-picker-field" type="text" name="cpt_icon" placeholder="dashicons-admin-generic" type="text" value="<? echo $item['icon']; ?>" />
+				<button class="button iconPicker c-icon-picker-btn c-button c-icon-btn" type="button"  data-target="#cpt_icon"><i class="far fa-search-plus"></i></button>
+				<input id="cpt_icon" class="c-input-field c-icon-picker-field" type="text" name="cpt_icon" placeholder="\f085" type="text" value="<? echo $item['icon']; ?>" />
 			</div>
 			<p class="c-instructions">
-				The admin menu icon. Use default Dashicons via the search button or enter a URL for the icon image.
+				The admin menu icon. Use Font Awesome icons via the search button or enter a URL for the icon image.
+			</p>
 		</div>
 
 		<div class="wrap c-admin__field c-admin__field--qrtr">

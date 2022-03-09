@@ -24,4 +24,3 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 ## TODO
 - Need to be able to validate unique tax slug
 - Figure out how to combine add and edit templates into one template
-- Change menu icon options from dashicons to fontawesome
