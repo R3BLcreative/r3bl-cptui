@@ -108,12 +108,15 @@ if(!class_exists('R3BLCPTUI')) {
 
 			if(!empty($results)) {
 				foreach($results as $cpt) {
+					$icon = json_decode($cpt['icon'], true);
+					$style = $icon['style'];
+
 					$theCPT = [
 						'k'			=> $cpt['slug'],
 						's'			=> $cpt['singular'],
 						'p'			=> $cpt['plural'],
 						'pos'		=> (int) $cpt['position'],
-						'icn'		=> $cpt['icon'],
+						'icn'		=> $style,
 						'taxs'	=> json_decode($cpt['taxonomies'], true),
 						'hier'	=> $cpt['hierarchical'],
 						'srch'	=> $cpt['search'],
@@ -202,7 +205,7 @@ if(!class_exists('R3BLCPTUI')) {
 				singular varchar(30) NOT NULL,
 				plural varchar(30) NOT NULL,
 				position tinyint(2) NOT NULL,
-				icon varchar(150) NOT NULL,
+				icon json DEFAULT (JSON_OBJECT()) NOT NULL,
 				taxonomies json DEFAULT (JSON_OBJECT()) NOT NULL,
 				hierarchical boolean DEFAULT 0 NOT NULL,
 				search boolean DEFAULT 0 NOT NULL,
@@ -340,9 +343,10 @@ if(!class_exists('R3BLCPTUI')) {
 			if(!empty($this->CPTS)) {
 				echo '<style type="text/css" media="screen">';
 				foreach($this->CPTS as $cpt) {
+					$icon = json_decode($cpt['icon'], true);
 					echo '#menu-posts-'.$cpt['slug'].' .menu-top div.wp-menu-image:before {
 						font-family: "Font Awesome 5 Pro" !important;
-						content: "'.stripslashes($cpt['icon']).'";
+						content: "\\'.$icon['unicode'].'";
 						font-size: 15px;
 						font-weight: 800;
 					}
@@ -353,7 +357,6 @@ if(!class_exists('R3BLCPTUI')) {
 				}
 				echo '</style>';
 			}
-			echo 'TEST';
 		}
 
 		/**
@@ -435,7 +438,7 @@ if(!class_exists('R3BLCPTUI')) {
 				$table = $wpdb->prefix.$this->table;
 				$query = "SELECT * FROM $table WHERE id=%s";
 				$query = $wpdb->prepare($query, $id);
-				$results = $wpdb->get_results($query);
+				$results = $wpdb->get_results($query, 'ARRAY_A');
 
 				if(empty($results)) {
 					wp_safe_redirect(admin_url('admin.php').'?page=r3blcptui-list');
@@ -513,9 +516,9 @@ if(!class_exists('R3BLCPTUI')) {
 						break;
 					case 'icon':
 						// Validate not empty
-						if(empty($value)) {
+						if(empty($value['id'])) {
 							$errors['txt'][] = 'Menu Icon is a required field.';
-							$errors['field'][] = 'cpt_icon';
+							$errors['field'][] = 'cpt_icon_id';
 						}
 						break;
 					case 'taxonomies':
@@ -605,7 +608,7 @@ if(!class_exists('R3BLCPTUI')) {
 					'singular'			=> strtolower($_REQUEST['singular']),
 					'plural'				=> strtolower($_REQUEST['plural']),
 					'position'			=> intval($_REQUEST['position']),
-					'icon'					=> strtolower($_REQUEST['icon']),
+					'icon'					=> json_encode($_REQUEST['icon']),
 					'taxonomies'		=> json_encode($taxs),
 					'hierarchical'	=> $this->checked($_REQUEST['hierarchical']),
 					'search'				=> $this->checked($_REQUEST['search']),

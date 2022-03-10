@@ -3,22 +3,25 @@
 
 // FORM STYLES
 .r3bl-admin-title-wrap {
-	display: flex;
-	flex-wrap: wrap;
-	align-items: center;
-	justify-content: flex-start;
-	gap: 12px;
 	margin-bottom: 48px;
-}
 
-.r3bl-admin-title-icon {
-	width: 35px;
-	height: 35px;
-	font-size: 35px;
-}
+	.r3bl-admin-title-icon {
+		width: 35px;
+		height: 35px;
+		font-size: 35px;
+		line-height: 35px;
+		padding-top: 5px;
+		display: inline-block;
+	}
 
-.r3bl-admin-add-btn {
-	margin-top: 12px;
+	.r3bl-admin-title {
+		display: inline-block;
+	}
+	
+	.r3bl-admin-add-btn {
+		margin-top: 12px;
+		display: inline-block;
+	}
 }
 
 .r3bl-admin-empty-btn {
@@ -318,11 +321,12 @@
 }
 
 .r3bl-admin-item-icon {
-	font-family: "Font Awesome 5 Pro" !important;
-	font-weight: 800;
-	font-size: 30px;
-	line-height: 30px;
 	height: 40px;
+	i {
+		font-weight: 800;
+		font-size: 30px;
+		line-height: 30px;
+	}
 }
 
 .r3bl-admin-title-wrap .wp-header-end {

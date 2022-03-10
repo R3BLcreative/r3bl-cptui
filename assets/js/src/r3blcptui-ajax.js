@@ -30,7 +30,13 @@
 			singular: $('#cpt_singular').val(),
 			plural: $('#cpt_plural').val(),
 			position: $('#cpt_position').val(),
-			icon: $('#cpt_icon').val(),
+			icon: {
+				id: $('#cpt_icon_id').val(),
+				unicode: $('#cpt_icon_unicode').val(),
+				label: $('#cpt_icon_label').val(),
+				styles: $('#cpt_icon_styles').val(),
+				style: $('#cpt_icon_style').val()
+			},
 			hierarchical: $('#cpt_hierarchical').prop('checked'),
 			search: $('#cpt_search').prop('checked'),
 			archive: $('#cpt_archive').prop('checked'),

@@ -43,6 +43,8 @@
 	<div id="r3blcptui-notifications" class="user-notifications"></div>
 
 	<div class="c-admin">
+
+		<!-- \\\\\\\\\\\\\\ TITLE \\\\\\\\\\\\\\\\\ -->
 		<div class="wrap c-admin__field c-admin__field--half">
 			<label for="admin_title" class="c-label">Admin Title <span>*</span></label>
 			<input id="admin_title" class="c-input-field" type="text" name="admin_title" placeholder="CPT" value="<? echo $item['title']; ?>" />
@@ -51,6 +53,7 @@
 			</p>
 		</div>
 
+		<!-- \\\\\\\\\\\\\\ SLUG \\\\\\\\\\\\\\\\\ -->
 		<div class="wrap c-admin__field c-admin__field--half">
 			<label for="cpt_slug" class="c-label">Slug <span>*</span></label>
 			<input id="cpt_slug" class="c-input-field validate-slug" type="text" name="cpt_slug" placeholder="cpt-slug" value="<? echo $item['slug']; ?>" data-type="cpt" />
@@ -60,6 +63,7 @@
 			</p>
 		</div>
 		
+		<!-- \\\\\\\\\\\\\\ SINGULAR \\\\\\\\\\\\\\\\\ -->
 		<div class="wrap c-admin__field c-admin__field--half">
 			<label for="cpt_singular" class="c-label">Singular <span>*</span></label>
 			<input id="cpt_singular" class="c-input-field" type="text" name="cpt_singular" placeholder="cpt" value="<? echo $item['singular']; ?>" />
@@ -68,6 +72,7 @@
 			</p>
 		</div>
 		
+		<!-- \\\\\\\\\\\\\\ PLURAL \\\\\\\\\\\\\\\\\ -->
 		<div class="wrap c-admin__field c-admin__field--half">
 			<label for="cpt_plural" class="c-label">Plural <span>*</span></label>
 			<input id="cpt_plural" class="c-input-field" type="text" name="cpt_plural" placeholder="cpts" value="<? echo $item['plural']; ?>" />
@@ -76,6 +81,7 @@
 			</p>
 		</div>
 
+		<!-- \\\\\\\\\\\\\\ POSITION \\\\\\\\\\\\\\\\\ -->
 		<div class="wrap c-admin__field c-admin__field--half">
 			<label for="cpt_position" class="c-label">Menu Position <span>*</span></label>
 			<input id="cpt_position" class="c-input-field" type="text" name="cpt_position" placeholder="20" value="<? echo $item['position']; ?>" />
@@ -83,19 +89,40 @@
 				The admin menu position. Follows the numeric structure outlined in the WP doc <a href="https://developer.wordpress.org/reference/functions/add_menu_page/" target="_blank">here</a>.
 			</p>
 		</div>
-		
+
+		<!-- \\\\\\\\\\\\\\ ICON \\\\\\\\\\\\\\\\\ -->
 		<div class="wrap c-admin__field c-admin__field--half c-admin__field--icon">
 			<label for="cpt_icon" class="c-label">Menu Icon <span>*</span></label>
 			<div class="c-icon">
-				<i id="cpt_icon_preview" class=""></i>
-				<input id="cpt_icon" class="c-input-field c-icon-picker-field" type="text" name="cpt_icon" placeholder="\f085" type="text" value="<? echo $item['icon']; ?>" />
+				<? if(!empty($item['icon'])) {$icon = json_decode($item['icon'], true);} ?>
+
+				<!-- BUTTON  -->
 				<button class="button iconPicker c-icon-picker-btn c-button c-icon-btn" type="button" data-preview="#cpt_icon_preview" data-target="#cpt_icon"><i class="far fa-search-plus"></i></button>
+
+				<!-- PREVIEW -->
+				<i id="cpt_icon_preview" class="<? echo $icon['style']; ?>"></i>
+
+				<!-- ID -->
+				<input type="hidden" id="cpt_icon_id" name="cpt_icon_id" value="<? echo $icon['id']; ?>" />
+
+				<!-- UNICODE -->
+				<input type="hidden" id="cpt_icon_unicode" name="cpt_icon_unicode" value="<? echo $icon['unicode']; ?>" />
+
+				<!-- LABEL -->
+				<input type="hidden" id="cpt_icon_label" name="cpt_icon_label" value="<? echo $icon['label']; ?>" />
+
+				<!-- STYLES -->
+				<input type="hidden" id="cpt_icon_styles" name="cpt_icon_styles" value="<? echo $icon['styles']; ?>" />
+
+				<!-- STYLE -->
+				<input type="hidden" id="cpt_icon_style" name="cpt_icon_style" value="<? echo $icon['style']; ?>" />
 			</div>
 			<p class="c-instructions">
-				The admin menu icon. Use Font Awesome icons via the search button or enter a URL for the icon image.
+				The admin menu icon. Use Font Awesome icons via the search button.
 			</p>
 		</div>
 
+		<!-- \\\\\\\\\\\\\\ HIERARCHICAL \\\\\\\\\\\\\\\\\ -->
 		<div class="wrap c-admin__field c-admin__field--qrtr">
 			<p class="c-instructions">Do you want this CPT to have parent/child relationships?</p>
 			<div class="c-check-field">
@@ -105,6 +132,7 @@
 			</div>
 		</div>
 		
+		<!-- \\\\\\\\\\\\\\ SEARCH \\\\\\\\\\\\\\\\\ -->
 		<div class="wrap c-admin__field c-admin__field--qrtr">
 			<p class="c-instructions">Do you want this CPT to show up in the frontend search results?</p>
 			<div class="c-check-field">
@@ -114,6 +142,7 @@
 			</div>
 		</div>
 
+		<!-- \\\\\\\\\\\\\\ ARCHIVE \\\\\\\\\\\\\\\\\ -->
 		<div class="wrap c-admin__field c-admin__field--qrtr">
 			<p class="c-instructions">Does this CPT need to have a public archive page? Uses slug as the permalink.</p>
 			<div class="c-check-field">
@@ -123,6 +152,7 @@
 			</div>
 		</div>
 		
+		<!-- \\\\\\\\\\\\\\ PUBLIC \\\\\\\\\\\\\\\\\ -->
 		<div class="wrap c-admin__field c-admin__field--qrtr">
 			<p class="c-instructions">Is this a public CPT that can be viewed on the frontend?</p>
 			<div class="c-check-field">
@@ -132,6 +162,7 @@
 			</div>
 		</div>
 
+		<!-- \\\\\\\\\\\\\\ TAXONOMIES \\\\\\\\\\\\\\\\\ -->
 		<div class="c-admin__field c-admin__field--full c-admin__field--repeat taxonomies">
 			<label class="c-label">Taxonomies:</label>
 			<p class="c-instructions">
@@ -147,6 +178,7 @@
 	</div>
 </form>
 
+<!-- \\\\\\\\\\\\\\ REPEATER TEMPLATE \\\\\\\\\\\\\\\\\ -->
 <script type="text/template" id="repeat-tax-temp">
 <div class="repeat-field-group">
 	<div class="row-num">{?}</div>

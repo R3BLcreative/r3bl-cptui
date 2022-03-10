@@ -20,7 +20,7 @@
 
 			function createPopup(button) {
 
-				var target = $(button.data('target')),
+				var target = button.data('target'),
 					preview = $(button.data('preview')),
 					popup  = $('<div class="icon-picker-container">' +
 						'<div class="icon-picker-control"></div>' +
@@ -38,18 +38,27 @@
 						var id = icons[i].id;
 						var styles = icons[i].styles;
 						var style = (styles == 'brands') ? 'fab' : 'far';
-						list.append('<div class="icon-picker-icon" data-icon="' + label + '"><a href="#" data-styles="'+styles+'" data-icon="' + id + '" title="' + unicode + '"><i class="'+style+' fa-' + id + '"></i></a></div>');
+						list.append('<div class="icon-picker-icon" data-icon="'+label+'"><a href="#" data-id="'+id+'" data-unicode="'+unicode+'" data-label="'+label+'" data-styles="'+styles+'" title="'+unicode+'"><i class="'+style+' fa-'+id+'"></i></a></div>');
 					}
 				}
 
 				$('a', list).on('click', function(e) {
 					e.preventDefault();
-					var title = $(this).attr('title');
-					var icon = $(this).data('icon');
-					target.val('\\' + title);
+					var id = $(this).data('id');
+					var unicode = $(this).data('unicode');
+					var label = $(this).data('label');
+					var styles = $(this).data('styles');
+					var style = (styles == 'brands') ? 'fab' : 'far';
+
+					$(target+'_id').val(id);
+					$(target+'_unicode').val(unicode);
+					$(target+'_label').val(label);
+					$(target+'_styles').val(styles);
+					$(target+'_style').val(style+' fa-'+id);
+
 					preview
-						.prop('class', 'far')
-						.addClass('fa-' + icon);
+						.addClass(style)
+						.addClass('fa-'+id);
 					removePopup();
 				});
 

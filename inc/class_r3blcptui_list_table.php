@@ -217,13 +217,17 @@ class R3BLCPTUI_List_Table extends WP_List_Table {
 	 * * COLUMN: Icon
 	 */
 	function column_icon($item) {
+		$icon = json_decode($item['icon'], true);
+		// return '
+		// <style type="text/css" media="screen">
+		// #icon-'.$item['id'].':before {
+		// 	content:"'.stripslashes($icon['unicode']).'";
+		// }
+		// </style>
+		// 	<div id="icon-'.$item['id'].'" style="" class="r3bl-admin-item-icon "></div>
+		// ';
 		return '
-		<style type="text/css" media="screen">
-		#icon-'.$item['id'].':before {
-			content:"'.stripslashes($item['icon']).'";
-		}
-		</style>
-			<div id="icon-'.$item['id'].'" style="" class="r3bl-admin-item-icon"></div>
+		<div id="icon-'.$item['id'].'" style="" class="r3bl-admin-item-icon"><i class="'.$icon['style'].'"></i></div>
 		';
 	}
 

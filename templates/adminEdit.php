@@ -55,90 +55,121 @@
 	</div>
 
 	<div class="c-admin">
+		<!-- \\\\\\\\\\\\\\ TITLE \\\\\\\\\\\\\\\\\ -->
 		<div class="wrap c-admin__field c-admin__field--half">
 			<label for="admin_title" class="c-label">Admin Title <span>*</span></label>
-			<input id="admin_title" class="c-input-field" type="text" name="admin_title" placeholder="CPT" value="<? echo $item->title; ?>" />
+			<input id="admin_title" class="c-input-field" type="text" name="admin_title" placeholder="CPT" value="<? echo $item['title']; ?>" />
 			<p class="c-instructions">
 				The reference title for display in the WordPress Admin.
 			</p>
 		</div>
 
+		<!-- \\\\\\\\\\\\\\ SLUG \\\\\\\\\\\\\\\\\ -->
 		<div class="wrap c-admin__field c-admin__field--half">
 			<label for="cpt_slug" class="c-label">Slug <span>*</span></label>
-			<input id="cpt_slug" class="c-input-field" type="text" name="cpt_slug" placeholder="cpt-slug" value="<? echo $item->slug; ?>" disabled />
+			<input id="cpt_slug" class="c-input-field" type="text" name="cpt_slug" placeholder="cpt-slug" value="<? echo $item['slug']; ?>" disabled />
 		</div>
 		
+		<!-- \\\\\\\\\\\\\\ SINGULAR \\\\\\\\\\\\\\\\\ -->
 		<div class="wrap c-admin__field c-admin__field--half">
 			<label for="cpt_singular" class="c-label">Singular <span>*</span></label>
-			<input id="cpt_singular" class="c-input-field" type="text" name="cpt_singular" placeholder="cpt" value="<? echo $item->singular; ?>" />
+			<input id="cpt_singular" class="c-input-field" type="text" name="cpt_singular" placeholder="cpt" value="<? echo $item['singular']; ?>" />
 			<p class="c-instructions">
 				The singular form of the CPT for creating CPT labels.
 			</p>
 		</div>
-		
+
+		<!-- \\\\\\\\\\\\\\ PLURAL \\\\\\\\\\\\\\\\\ -->
 		<div class="wrap c-admin__field c-admin__field--half">
 			<label for="cpt_plural" class="c-label">Plural <span>*</span></label>
-			<input id="cpt_plural" class="c-input-field" type="text" name="cpt_plural" placeholder="cpts" value="<? echo $item->plural; ?>" />
+			<input id="cpt_plural" class="c-input-field" type="text" name="cpt_plural" placeholder="cpts" value="<? echo $item['plural']; ?>" />
 			<p class="c-instructions">
 				The plural form of the CPT for creating CPT labels.
 			</p>
 		</div>
 
+		<!-- \\\\\\\\\\\\\\ POSITION \\\\\\\\\\\\\\\\\ -->
 		<div class="wrap c-admin__field c-admin__field--half">
 			<label for="cpt_position" class="c-label">Menu Position <span>*</span></label>
-			<input id="cpt_position" class="c-input-field" type="text" name="cpt_position" placeholder="20" value="<? echo $item->position; ?>" />
+			<input id="cpt_position" class="c-input-field" type="text" name="cpt_position" placeholder="20" value="<? echo $item['position']; ?>" />
 			<p class="c-instructions">
 				The admin menu position. Follows the numeric structure outlined in the WP doc <a href="https://developer.wordpress.org/reference/functions/add_menu_page/" target="_blank">here</a>.
 			</p>
 		</div>
-		
+
+		<!-- \\\\\\\\\\\\\\ ICON \\\\\\\\\\\\\\\\\ -->
 		<div class="wrap c-admin__field c-admin__field--half c-admin__field--icon">
 			<label for="cpt_icon" class="c-label">Menu Icon <span>*</span></label>
 			<div class="c-icon">
-				<i id="cpt_icon_preview" class=""></i>
-				<input id="cpt_icon" class="c-input-field c-icon-picker-field" type="text" name="cpt_icon" placeholder="\f085" type="text" value="<? echo stripslashes($item->icon); ?>" />
+				<? if(!empty($item['icon'])) {$icon = json_decode($item['icon'], true);} ?>
+
+				<!-- BUTTON  -->
 				<button class="button iconPicker c-icon-picker-btn c-button c-icon-btn" type="button" data-preview="#cpt_icon_preview" data-target="#cpt_icon"><i class="far fa-search-plus"></i></button>
+
+				<!-- PREVIEW -->
+				<i id="cpt_icon_preview" class="<? echo $icon['style']; ?>"></i>
+
+				<!-- ID -->
+				<input type="hidden" id="cpt_icon_id" name="cpt_icon_id" value="<? echo $icon['id']; ?>" />
+
+				<!-- UNICODE -->
+				<input type="hidden" id="cpt_icon_unicode" name="cpt_icon_unicode" value="<? echo $icon['unicode']; ?>" />
+
+				<!-- LABEL -->
+				<input type="hidden" id="cpt_icon_label" name="cpt_icon_label" value="<? echo $icon['label']; ?>" />
+
+				<!-- STYLES -->
+				<input type="hidden" id="cpt_icon_styles" name="cpt_icon_styles" value="<? echo $icon['styles']; ?>" />
+
+				<!-- STYLE -->
+				<input type="hidden" id="cpt_icon_style" name="cpt_icon_style" value="<? echo $icon['style']; ?>" />
 			</div>
 			<p class="c-instructions">
-				The admin menu icon. Use Font Awesome icons via the search button or enter a URL for the icon image.
+				The admin menu icon. Use Font Awesome icons via the search button.
+			</p>
 		</div>
 
+		<!-- \\\\\\\\\\\\\\ HIERARCHICAL \\\\\\\\\\\\\\\\\ -->
 		<div class="wrap c-admin__field c-admin__field--qrtr">
 			<p class="c-instructions">Do you want this CPT to have parent/child relationships?</p>
 			<div class="c-check-field">
-				<input id="cpt_hierarchical" class="c-check-field__input" type="checkbox" name="cpt_hierarchical" <? echo $this->checked($item->hierarchical, true); ?> />
+				<input id="cpt_hierarchical" class="c-check-field__input" type="checkbox" name="cpt_hierarchical" <? echo $this->checked($item['hierarchical'], true); ?> />
 				<label for="cpt_hierarchical" class="c-check-field__decor" aria-hidden="true" role="presentation"></label>
 				<label for="cpt_hierarchical" class="c-check-field__label">Hierarchical</label>
 			</div>
 		</div>
 		
+		<!-- \\\\\\\\\\\\\\ SEARCH \\\\\\\\\\\\\\\\\ -->
 		<div class="wrap c-admin__field c-admin__field--qrtr">
 			<p class="c-instructions">Do you want this CPT to show up in the frontend search results?</p>
 			<div class="c-check-field">
-				<input id="cpt_search" class="c-check-field__input" type="checkbox" name="cpt_search" <? echo $this->checked($item->search, true); ?> />
+				<input id="cpt_search" class="c-check-field__input" type="checkbox" name="cpt_search" <? echo $this->checked($item['search'], true); ?> />
 				<label for="cpt_search" class="c-check-field__decor" aria-hidden="true" role="presentation"></label>
 				<label for="cpt_search" class="c-check-field__label">Searchable</label>
 			</div>
 		</div>
 
+		<!-- \\\\\\\\\\\\\\ ARCHIVE \\\\\\\\\\\\\\\\\ -->
 		<div class="wrap c-admin__field c-admin__field--qrtr">
 			<p class="c-instructions">Does this CPT need to have a public archive page? Uses slug as the permalink.</p>
 			<div class="c-check-field">
-				<input id="cpt_archive" class="c-check-field__input" type="checkbox" name="cpt_archive" <? echo $this->checked($item->archive, true); ?> />
+				<input id="cpt_archive" class="c-check-field__input" type="checkbox" name="cpt_archive" <? echo $this->checked($item['archive'], true); ?> />
 				<label for="cpt_archive" class="c-check-field__decor" aria-hidden="true" role="presentation"></label>
 				<label for="cpt_archive" class="c-check-field__label">Has Archive</label>
 			</div>
 		</div>
 		
+		<!-- \\\\\\\\\\\\\\ PUBLIC \\\\\\\\\\\\\\\\\ -->
 		<div class="wrap c-admin__field c-admin__field--qrtr">
 			<p class="c-instructions">Is this a public CPT that can be viewed on the frontend?</p>
 			<div class="c-check-field">
-				<input id="cpt_public" class="c-check-field__input" type="checkbox" name="cpt_public" <? echo $this->checked($item->public, true); ?> />
+				<input id="cpt_public" class="c-check-field__input" type="checkbox" name="cpt_public" <? echo $this->checked($item['public'], true); ?> />
 				<label for="cpt_public" class="c-check-field__decor" aria-hidden="true" role="presentation"></label>
 				<label for="cpt_public" class="c-check-field__label">Public</label>
 			</div>
 		</div>
 
+		<!-- \\\\\\\\\\\\\\ TAXONOMIES \\\\\\\\\\\\\\\\\ -->
 		<div class="c-admin__field c-admin__field--full c-admin__field--repeat taxonomies">
 			<label class="c-label">Taxonomies:</label>
 			<p class="c-instructions">
@@ -147,7 +178,7 @@
 			<button class="repeat-add c-button c-icon-btn"><span class="dashicons dashicons-plus-alt"></span> Add Taxonomy</button>
 			<div class="repeat-taxs">
 				<?
-				$taxs = json_decode($item->taxonomies, true);
+				$taxs = json_decode($item['taxonomies'], true);
 				if(!empty($taxs)):
 					$count = count($taxs);
 					for($i = 0; $i < $count; $i++): $x = $i + 1;
@@ -185,6 +216,7 @@
 	</div>
 </form>
 
+<!-- \\\\\\\\\\\\\\ REPEATER TEMPLATE \\\\\\\\\\\\\\\\\ -->
 <script type="text/template" id="repeat-tax-temp">
 <div class="repeat-field-group">
 	<div class="row-num">{?}</div>
