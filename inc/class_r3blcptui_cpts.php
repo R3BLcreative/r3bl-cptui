@@ -173,8 +173,8 @@ class R3BLCPTUI_CPTS {
 				//'query_var'				=> '',
 				//'update_count_callback'	=> '',
 				'default_term'				=> [
-					'name'				=> 'Default',
-					'slug'				=> 'default',
+					'name'				=> 'Uncategorized',
+					'slug'				=> 'uncategorized',
 					'description'	=> sprintf('The default %s taxonomy for %s', $s, $cpt)
 				],
 				'sort'						=> true,
