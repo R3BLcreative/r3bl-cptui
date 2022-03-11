@@ -3,9 +3,12 @@
 
 	$.fn.iconPicker = function () {
 		return this.each(async function() {
-
-			var r = await getIcons();
+			var version = '5.15.4';
+			var access = await getToken();
+			var token = access.access_token;
+			var r = await getIcons(token);
 			var icons = r.data.release.icons;
+			var allIcons = icons;
 			// console.log(icons);
 
 			var button = $(this),
@@ -81,18 +84,25 @@
 
 				popup.appendTo('body').show();
 
-				$('input', control).on('keyup', function(e) {
+				$('input', control).on('keyup', async function(e) {
 					var search = $(this).val();
 					if(search === '') {
-						$('div:lt(30)', list).show();
+						icons = allIcons;
 					}else{
-						$('div', list).each(function() {
-							if($(this).data('icon').toLowerCase().indexOf(search.toLowerCase()) !== -1) {
-								$(this).show();
-							}else{
-								$(this).hide();
-							}
-						});
+						var r = await searchIcons(token, search);
+						icons = r.data.search;
+					}
+
+					list.html('');
+					for(var i in icons) {
+						if(icons.hasOwnProperty(i)) {
+							var label = icons[i].label;
+							var unicode = icons[i].unicode;
+							var id = icons[i].id;
+							var styles = icons[i].styles;
+							var style = (styles == 'brands') ? 'fab' : 'far';
+							list.append('<div class="icon-picker-icon" data-icon="'+label+'"><a href="#" data-id="'+id+'" data-unicode="'+unicode+'" data-label="'+label+'" data-styles="'+styles+'" title="'+unicode+'"><i class="'+style+' fa-'+id+'"></i></a></div>');
+						}
 					}
 				});
 
@@ -108,17 +118,26 @@
 				$(document).off('.iconPicker');
 			}
 
-			async function getIcons() {
-				var access = await getToken();
-				var token = access.access_token;
-
+			async function searchIcons(token, s) {
 				return $.ajax({
 					url: 'https://api.fontawesome.com',
 					headers: {"Authorization": "Bearer " + token},
 					contentType: 'application/json',
 					dataType: 'json',
 					data: {
-						"query": "query{release(version: \"5.15.4\"){icons{id label styles unicode}}}"
+						"query": "query{search(version: \""+version+"\", query: \""+s+"\", first: 150){id label styles unicode}}"
+					},
+				});
+			}
+
+			async function getIcons(token) {
+				return $.ajax({
+					url: 'https://api.fontawesome.com',
+					headers: {"Authorization": "Bearer " + token},
+					contentType: 'application/json',
+					dataType: 'json',
+					data: {
+						"query": "query{release(version: \""+version+"\"){icons{id label styles unicode}}}"
 					},
 				});
 			}

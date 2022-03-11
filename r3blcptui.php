@@ -45,7 +45,7 @@ use function FortAwesome\fa;
 
 if(!class_exists('R3BLCPTUI')) {
 	class R3BLCPTUI {
-		public $version = '1.0.0';
+		public $version = '1.0.1';
 		public $voption = 'r3blcptui_version';
 		public $table = 'r3blcptui';
 		public $CPTS = [];

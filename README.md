@@ -1,6 +1,6 @@
 # R3BL CPT UI
 
-###### Version 1.0.0
+###### Version 1.0.1
 
 *Enables a quick and easy UI that creates custom post types.*
 
@@ -24,7 +24,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 ## Version 1.0.1 TODO
 - When deleting a CPT permenantly, remove all tax/post entries in the DB
-- Enable FA searching functionality on icon picker
 - Figure out how to combine add and edit templates into one template
 - Need to be able to validate unique tax slug
 - Re-organize the stylesheet

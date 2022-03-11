@@ -1,7 +1,7 @@
 .icon-picker-container {
 	position: absolute;
 	width: 350px;
-	height: 290px;
+	height: 310px;
 	font-size: 14px;
 	background-color: #fff;
 	box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.4);
@@ -19,8 +19,8 @@
 		flex-direction: row;
 		flex-wrap: wrap;
 		align-items: center;
-		justify-content: space-between;
-		gap: 15px;
+		justify-content: flex-start;
+		gap: 19px;
 		border-radius: 12px;
 
 		.icon-picker-icon {
@@ -30,6 +30,7 @@
 				color: #373737;
 				padding: 5px 5px;
 				border: 1px solid #dfdfdf;
+				border-radius: 6px;
 
 				&:hover {
 					border-color: #999;
@@ -43,6 +44,7 @@
 					display: flex;
 					align-items: center;
 					justify-content: center;
+					font-weight: 800;
 				}
 			}
 		}
