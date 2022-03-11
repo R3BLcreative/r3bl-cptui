@@ -350,6 +350,7 @@ if(!class_exists('R3BLCPTUI')) {
 						font-size: 15px;
 						font-weight: 800;
 						line-height: 18px;
+						color: #668edd !important;
 					}
 					#menu-posts-'.$cpt['slug'].' .menu-top div.wp-menu-image img {
 						display: none !important;
