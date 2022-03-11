@@ -16,7 +16,8 @@
 
 
 ## Version 1.0.1
-- ~~Enable FA Algolia search engine for icon picker~~ **DONE**
+- ~~Enable FA Algolia search engine for icon picker~~ **(DONE)**
+- ~~Admin menu icon misalignment~~ **(DONE)**
 - When deleting a CPT permenantly, remove all tax/post entries in the DB
 - Figure out how to combine add and edit templates into one template
 - Need to be able to validate unique tax slug
