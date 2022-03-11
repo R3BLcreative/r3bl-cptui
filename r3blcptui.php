@@ -349,6 +349,7 @@ if(!class_exists('R3BLCPTUI')) {
 						content: "\\'.$icon['unicode'].'";
 						font-size: 15px;
 						font-weight: 800;
+						line-height: 18px;
 					}
 					#menu-posts-'.$cpt['slug'].' .menu-top div.wp-menu-image img {
 						display: none !important;
