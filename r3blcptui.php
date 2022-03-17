@@ -77,19 +77,25 @@ if(!class_exists('R3BLCPTUI')) {
 				add_action('wp_ajax_r3blcptui_validate', [$this, 'AJAX_validate']);
 				add_action('wp_ajax_r3blcptui_getAPItoken', [$this, 'AJAX_get_apiTokenFA']);
 				add_action('wp_ajax_r3blcptui_validate_inline', [$this, 'AJAX_validate_inline']);
+				// Custom Columns
 				add_action('manage_posts_custom_column',[$this, 'showColumn'],5,2);
-				add_action('manage_pages_custom_column',[$this, 'showColumn'],5,2);
+				if(get_option('r3blcptui_custom_columns_pages') == true) {
+					add_action('manage_pages_custom_column',[$this, 'showColumn'],5,2);
+				}
 
 				// FILTERS
 				add_filter('set-screen-option', [$this,'r3blcptui_set_option'], 10, 3);
 				add_filter('default_hidden_columns', [$this, 'default_hidden_columns'], 10, 2);
 				add_filter('plugin_action_links_r3blcptui/r3blcptui.php',[$this,'settingsLink']);
-				add_filter( 'manage_posts_columns', [$this, 'addColumns'], 2 );
-				add_filter( 'manage_pages_columns', [$this, 'addColumns'], 2 );
+				// Custom Columns
+				add_filter('manage_posts_columns', [$this, 'addColumns'], 2);
 				add_filter('manage_posts_columns', [$this, 'columnOrder']);
-				add_filter('manage_pages_columns', [$this, 'columnOrder']);
 				add_filter('manage_edit-post_sortable_columns',[$this, 'columnSortable']);
-				add_filter('manage_edit-page_sortable_columns',[$this, 'columnSortable']);
+				if(get_option('r3blcptui_custom_columns_pages') == true) {
+					add_filter('manage_pages_columns', [$this, 'addColumns'], 2);
+					add_filter('manage_pages_columns', [$this, 'columnOrder']);
+					add_filter('manage_edit-page_sortable_columns',[$this, 'columnSortable']);
+				}
 
 				// FONT AWESOME
 				add_action(
@@ -287,7 +293,7 @@ if(!class_exists('R3BLCPTUI')) {
 			);
 			wp_enqueue_script(
 				'spectrum-color-picker-js',
-				'https://cdn.jsdelivr.net/npm/spectrum-colorpicker2/dist/spectrum.min.js',
+				plugin_dir_url( __FILE__ ).'assets/js/spectrum.min.js',
 				['jquery'],
 				strtotime('now'),
 				true
@@ -304,12 +310,6 @@ if(!class_exists('R3BLCPTUI')) {
 				'r3blcptui-css',
 				plugin_dir_url(__FILE__).'assets/css/r3blcptui.css',
 				['dashicons'],
-				strtotime('now')
-			);
-			wp_enqueue_style(
-				'spectrum-color-picker-css',
-				'https://cdn.jsdelivr.net/npm/spectrum-colorpicker2/dist/spectrum.min.css',
-				[],
 				strtotime('now')
 			);
 		}
@@ -591,22 +591,51 @@ if(!class_exists('R3BLCPTUI')) {
 						'wp_data'						=> 'option',
 						'default'						=> ''
 					]
-					],
-					[
-						'id'		=> 'r3blcptui_icon_color',
-						'label'	=> 'Admin Custom Icon Color',
-						'args'	=> [
-							'type'							=> 'input',
-							'subtype'						=> 'text',
-							'id'								=> 'color-picker',
-							'name'							=> 'r3blcptui_icon_color',
-							'required'					=> false,
-							'get_options_list'	=> '',
-							'value_type'				=> 'normal',
-							'wp_data'						=> 'option',
-							'default'						=> '#668edd'
-						]
+				],
+				[
+					'id'		=> 'r3blcptui_icon_color',
+					'label'	=> 'Admin Custom Icon Color',
+					'args'	=> [
+						'type'							=> 'input',
+						'subtype'						=> 'text',
+						'id'								=> 'color-picker',
+						'name'							=> 'r3blcptui_icon_color',
+						'required'					=> false,
+						'get_options_list'	=> '',
+						'value_type'				=> 'normal',
+						'wp_data'						=> 'option',
+						'default'						=> '#668edd'
 					]
+				],
+				[
+					'id'		=> 'r3blcptui_custom_columns_posts',
+					'label'	=> 'Custom Columns for Posts',
+					'args'	=> [
+						'type'							=> 'input',
+						'subtype'						=> 'checkbox',
+						'id'								=> 'r3blcptui_custom_columns_posts',
+						'name'							=> 'r3blcptui_custom_columns_posts',
+						'required'					=> false,
+						'get_options_list'	=> '',
+						'value_type'				=> 'normal',
+						'wp_data'						=> 'option'
+					]
+				]
+				,
+				[
+					'id'		=> 'r3blcptui_custom_columns_pages',
+					'label'	=> 'Custom Columns for Pages',
+					'args'	=> [
+						'type'							=> 'input',
+						'subtype'						=> 'checkbox',
+						'id'								=> 'r3blcptui_custom_columns_pages',
+						'name'							=> 'r3blcptui_custom_columns_pages',
+						'required'					=> false,
+						'get_options_list'	=> '',
+						'value_type'				=> 'normal',
+						'wp_data'						=> 'option'
+					]
+				]
 			];
 
 			foreach($fields as $field) {
@@ -980,7 +1009,14 @@ if(!class_exists('R3BLCPTUI')) {
 		 * 
 		 */
 		public function addColumns($columns) {
-			$PT = $_GET['post_type'];
+			$PT = (isset($_GET['post_type'])) ? $_GET['post_type'] : 'post';
+			$pages = get_option('r3blcptui_custom_columns_pages');
+			$posts = get_option('r3blcptui_custom_columns_posts');
+
+			if($PT == 'page' && $pages == false || $PT == 'post' && $posts == false) {
+				return $columns;
+			}
+
 			$pubs = get_post_types(['public'=>true]);
 			unset($pubs[array_search('attachment', $pubs)]);
 			unset($columns['date']);
@@ -988,13 +1024,14 @@ if(!class_exists('R3BLCPTUI')) {
 			unset($columns['comments']);
 			$pubs[] = 'people';
 
-			if(in_array($PT, $pubs) || $PT === false || in_array($PT, $this->CPTSwIMGS)) {
+			if(in_array($PT, $this->CPTSwIMGS) || $pages == true || $posts == true) {
 				$columns['r3blcptui_thumb'] = __('Image');
 			}
 
-			if($_GET['post_type'] != 'page') {
+			if($PT != 'page') {
 				$columns['r3blcptui_row'] = '#';
 			}
+
 			$columns['r3blcptui_date'] = 'Created';
 			$columns['r3blcptui_updated'] = 'Modified';
 
@@ -1061,22 +1098,29 @@ if(!class_exists('R3BLCPTUI')) {
 		 * Method that re-arranges the column order
 		 */
 		public function columnOrder($columns) {
-			$PT = $_GET['post_type'];
+			$PT = (isset($_GET['post_type'])) ? $_GET['post_type'] : 'post';
+			$pages = get_option('r3blcptui_custom_columns_pages');
+			$posts = get_option('r3blcptui_custom_columns_posts');
+
+			if($PT == 'page' && $pages == false || $PT == 'post' && $posts == false) {
+				return $columns;
+			}
+
 			$pubs = get_post_types(['public'=>true]);
 			unset($pubs[array_search('attachment', $pubs)]);// Remove attachment
 			$pubs[] = 'people';
-			
+
 			if($PT != 'page') {
 				$columns = $this->moveColumns($columns, 'r3blcptui_row', 'title');
 			}
-		
-			if(in_array($PT, $pubs) || $PT === false || in_array($PT, $this->CPTSwIMGS)) {
+
+			if(in_array($PT, $this->CPTSwIMGS) || $pages == true || $posts == true) {
 				$columns = $this->moveColumns($columns, 'r3blcptui_thumb', 'title');
 			}
-		
+
 			$columns = $this->moveColumns($columns, 'r3blcptui_date', 'wpseo-score');
 			$columns = $this->moveColumns($columns, 'r3blcptui_updated', 'wpseo-score');
-		
+
 			return $columns;
 		}
 

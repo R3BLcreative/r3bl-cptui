@@ -23,7 +23,7 @@
 - ~~Add an options page for the plugin with following setting options:~~
 - - ~~Font Awesome API Token~~
 - - ~~Custom Admin Menu Icon Color (color picker?)~~
-- - Add option for enabling featured images on admin tables for posts & pages...
+- - ~~Add option for enabling featured images on admin tables for posts & pages~~
 - When deleting a CPT permenantly, remove all tax/post entries in the DB
 - Figure out how to combine add and edit templates into one template
 - Need to be able to validate unique tax slug
