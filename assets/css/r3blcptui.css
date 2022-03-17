@@ -415,7 +415,12 @@
   }
 }
 .c-admin__field--qrtr {
-  width: 20%;
+  width: 15%;
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
 }
 @media (max-width: 1000px) {
   .c-admin__field--qrtr {

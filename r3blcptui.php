@@ -49,6 +49,7 @@ if(!class_exists('R3BLCPTUI')) {
 		public $voption = 'r3blcptui_version';
 		public $table = 'r3blcptui';
 		public $CPTS = [];
+		public $CPTSwIMGS = [];
 
 		/**
 		 * * Constructor Method
@@ -67,17 +68,28 @@ if(!class_exists('R3BLCPTUI')) {
 				register_uninstall_hook(__FILE__,'FortAwesome\FontAwesome_Loader::maybe_uninstall');
 
 				// ACTIONS
+				add_action('admin_init', [$this, 'settingsFields']);
 				add_action('init', [$this, 'registerCPTS']);
 				add_action('plugins_loaded', [$this, 'update']);
 				add_action('admin_menu', [$this, 'adminMenu']);
 				add_action('admin_head', [$this, 'adminHead']);
 				add_action('admin_enqueue_scripts', [$this, 'adminScripts']);
 				add_action('wp_ajax_r3blcptui_validate', [$this, 'AJAX_validate']);
+				add_action('wp_ajax_r3blcptui_getAPItoken', [$this, 'AJAX_get_apiTokenFA']);
 				add_action('wp_ajax_r3blcptui_validate_inline', [$this, 'AJAX_validate_inline']);
+				add_action('manage_posts_custom_column',[$this, 'showColumn'],5,2);
+				add_action('manage_pages_custom_column',[$this, 'showColumn'],5,2);
 
 				// FILTERS
 				add_filter('set-screen-option', [$this,'r3blcptui_set_option'], 10, 3);
 				add_filter('default_hidden_columns', [$this, 'default_hidden_columns'], 10, 2);
+				add_filter('plugin_action_links_r3blcptui/r3blcptui.php',[$this,'settingsLink']);
+				add_filter( 'manage_posts_columns', [$this, 'addColumns'], 2 );
+				add_filter( 'manage_pages_columns', [$this, 'addColumns'], 2 );
+				add_filter('manage_posts_columns', [$this, 'columnOrder']);
+				add_filter('manage_pages_columns', [$this, 'columnOrder']);
+				add_filter('manage_edit-post_sortable_columns',[$this, 'columnSortable']);
+				add_filter('manage_edit-page_sortable_columns',[$this, 'columnSortable']);
 
 				// FONT AWESOME
 				add_action(
@@ -88,6 +100,8 @@ if(!class_exists('R3BLCPTUI')) {
 						]);
 					}
 				);
+
+				add_image_size('r3blcptui-featured-image', 60, 60, false);
 			}
 		}
 
@@ -124,6 +138,9 @@ if(!class_exists('R3BLCPTUI')) {
 						'pub'		=> $cpt['public']
 					];
 					$this->CPTS[] = $cpt;
+					if($cpt['img'] == true) {
+						$this->CPTSwIMGS[] = $cpt['slug'];
+					}
 
 					// use class to setup CPTS & TAXS
 					$CPT->addCPT($theCPT);
@@ -211,6 +228,7 @@ if(!class_exists('R3BLCPTUI')) {
 				search boolean DEFAULT 0 NOT NULL,
 				archive boolean DEFAULT 0 NOT NULL,
 				public boolean DEFAULT 1 NOT NULL,
+				image boolean DEFAULT 0 NOT NULL,
 				status varchar(30) DEFAULT 'active' NOT NULL,
 				created datetime DEFAULT CURRENT_TIMESTAMP NOT NULL,
 				modified datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL,
@@ -256,13 +274,20 @@ if(!class_exists('R3BLCPTUI')) {
 			wp_enqueue_script(
 				'r3blcptui-js',
 				plugin_dir_url( __FILE__ ).'assets/js/r3blcptui.min.js',
-				['jquery'],
+				['jquery','spectrum-color-picker-js'],
 				strtotime('now'),
 				true
 			);
 			wp_enqueue_script(
 				'r3blcptui-ajax',
 				plugin_dir_url( __FILE__ ).'assets/js/r3blcptui-ajax.min.js',
+				['jquery'],
+				strtotime('now'),
+				true
+			);
+			wp_enqueue_script(
+				'spectrum-color-picker-js',
+				'https://cdn.jsdelivr.net/npm/spectrum-colorpicker2/dist/spectrum.min.js',
 				['jquery'],
 				strtotime('now'),
 				true
@@ -279,6 +304,12 @@ if(!class_exists('R3BLCPTUI')) {
 				'r3blcptui-css',
 				plugin_dir_url(__FILE__).'assets/css/r3blcptui.css',
 				['dashicons'],
+				strtotime('now')
+			);
+			wp_enqueue_style(
+				'spectrum-color-picker-css',
+				'https://cdn.jsdelivr.net/npm/spectrum-colorpicker2/dist/spectrum.min.css',
+				[],
 				strtotime('now')
 			);
 		}
@@ -328,6 +359,15 @@ if(!class_exists('R3BLCPTUI')) {
 				'r3blcptui-edit',
 				[$this, 'adminEdit']
 			);
+
+			add_submenu_page(
+				'r3blcptui-list',
+				'CPT UI - Settings',
+				'Settings',
+				'manage_options',
+				'r3blcptui-settings',
+				[$this, 'adminSettings']
+			);
 		}
 
 		/**
@@ -339,9 +379,11 @@ if(!class_exists('R3BLCPTUI')) {
 			// Hides the Edit page from the plugin menu
 			remove_submenu_page('r3blcptui-list','r3blcptui-edit');
 
+			echo '<style type="text/css" media="screen">';
+
 			// Add styles for custom Font Awesome menu icons
 			if(!empty($this->CPTS)) {
-				echo '<style type="text/css" media="screen">';
+				$color = get_option('r3blcptui_icon_color', '#668edd');
 				foreach($this->CPTS as $cpt) {
 					$icon = json_decode($cpt['icon'], true);
 					echo '#menu-posts-'.$cpt['slug'].' .menu-top div.wp-menu-image:before {
@@ -350,15 +392,20 @@ if(!class_exists('R3BLCPTUI')) {
 						font-size: 15px;
 						font-weight: 800;
 						line-height: 18px;
-						color: #668edd !important;
+						color: '.$color.' !important;
 					}
 					#menu-posts-'.$cpt['slug'].' .menu-top div.wp-menu-image img {
 						display: none !important;
 						visibility: hidden !important;
 					}';
 				}
-				echo '</style>';
 			}
+			// Custom Columns
+			echo '.column-r3blcptui_row {width: 20px;font-weight:800;}
+			.column-r3blcptui_thumb {width: 60px;}
+			.column-r3blcptui_date {width: 200px;}
+			.column-r3blcptui_updated {width: 200px;}';
+			echo '</style>';
 		}
 
 		/**
@@ -448,6 +495,188 @@ if(!class_exists('R3BLCPTUI')) {
 					$item = $results[0];
 					require_once(dirname(__FILE__).'/templates/adminEdit.php');
 				}
+			}
+		}
+
+		/**
+		 * * WP Admin Settings Page
+		 * 
+		 * This function handles the display of the settings admin page 
+		 * where users can set the plugin specific settings. Uses the 
+		 * adminSettings.php template.
+		 * 
+		 */
+		public function adminSettings() {
+			if(isset($_GET['error_message'])) {
+				add_action('admin_notices', [$this,'settingsNotices']);
+				do_action( 'admin_notices', $_GET['error_message'] );
+			}
+
+			require_once(dirname(__FILE__).'/templates/adminSettings.php');
+		}
+
+		/**
+		 * * WP Admin Plugin Page Settings Link
+		 * 
+		 * This function handles the display of the settings admin page 
+		 * where users can set the plugin specific settings. Uses the 
+		 * adminSettings.php template.
+		 * 
+		 */
+		public function settingsLink($links) {
+			$url = esc_url(add_query_arg(
+				'page',
+				'r3blcptui-settings',
+				get_admin_url().'admin.php'
+			));
+
+			$settings_link = '<a href="'.$url.'">Settings</a>';
+
+			array_push($links, $settings_link);
+			return $links;
+		}
+
+		/**
+		 * * WP Admin Settings Notices
+		 * 
+		 * This function handles the display of the settings admin page 
+		 * error/success notices.
+		 * 
+		 */
+		public function settingsNotices($notice) {
+			switch ($notice) {
+				case '1':
+					$message = 'There was an error adding this setting. Please try again.  If this persists, shoot us an email.';
+					$err_code = esc_attr( '' );
+					$setting_field = '';
+					break;
+			}
+			$type = 'error';
+			add_settings_error(
+				$setting_field,
+				$err_code,
+				$message,
+				$type
+			);
+		}
+
+		/**
+		 * * WP Admin Settings Fields
+		 * 
+		 * This function handles the display of the settings admin page 
+		 * settings fields and section details.
+		 * 
+		 */
+		public function settingsFields() {
+			add_settings_section(
+				'r3blcptui_settings_section',
+				'General Settings',
+				[$this, 'settingsSectionDescription'],
+				'r3blcptui_settings'
+			);
+
+			unset($fields);
+			$fields = [
+				[
+					'id'		=> 'r3blcptui_fa_token',
+					'label'	=> 'Font Awesome Pro API Token',
+					'args'	=> [
+						'type'							=> 'input',
+						'subtype'						=> 'text',
+						'id'								=> 'r3blcptui_fa_token',
+						'name'							=> 'r3blcptui_fa_token',
+						'required'					=> false,
+						'get_options_list'	=> '',
+						'value_type'				=> 'normal',
+						'wp_data'						=> 'option',
+						'default'						=> ''
+					]
+					],
+					[
+						'id'		=> 'r3blcptui_icon_color',
+						'label'	=> 'Admin Custom Icon Color',
+						'args'	=> [
+							'type'							=> 'input',
+							'subtype'						=> 'text',
+							'id'								=> 'color-picker',
+							'name'							=> 'r3blcptui_icon_color',
+							'required'					=> false,
+							'get_options_list'	=> '',
+							'value_type'				=> 'normal',
+							'wp_data'						=> 'option',
+							'default'						=> '#668edd'
+						]
+					]
+			];
+
+			foreach($fields as $field) {
+				add_settings_field(
+					$field['id'],
+					$field['label'],
+					[$this, 'settingsField'],
+					'r3blcptui_settings',
+					'r3blcptui_settings_section',
+					$field['args']
+				);
+
+				register_setting(
+					'r3blcptui_settings',
+					$field['id']
+				);
+			}
+		}
+
+		/**
+		 * * WP Admin Settings Section Description
+		 * 
+		 * This function handles the display of the settings admin page 
+		 * settings fields section description content.
+		 * 
+		 */
+		public function settingsSectionDescription() {
+			echo '<p></p>';
+		}
+
+		/**
+		 * * WP Admin Settings Field
+		 * 
+		 * This function handles the display of the settings admin page 
+		 * settings individual field content.
+		 * 
+		 */
+		public function settingsField($args) {
+			if($args['wp_data'] == 'option') {
+				$wp_data_value = get_option($args['name'], $args['default']);
+			}elseif($args['wp_data'] == 'post_meta'){
+				$wp_data_value = get_post_meta($args['post_id'], $args['name'], true );
+			}
+
+			switch ($args['type']) {
+				case 'input':
+					$value = ($args['value_type'] == 'serialized') ? serialize($wp_data_value) : $wp_data_value;
+
+					if(!in_array($args['subtype'], ['checkbox'])) {
+						$prependStart = (isset($args['prepend_value'])) ? '<div class="input-prepend"> <span class="add-on">'.$args['prepend_value'].'</span>' : '';
+						$prependEnd = (isset($args['prepend_value'])) ? '</div>' : '';
+						$step = (isset($args['step'])) ? 'step="'.$args['step'].'"' : '';
+						$min = (isset($args['min'])) ? 'min="'.$args['min'].'"' : '';
+						$max = (isset($args['max'])) ? 'max="'.$args['max'].'"' : '';
+
+						if(isset($args['disabled'])) {
+							// hide the actual input bc if it was just a disabled input the informaiton saved in the database would be wrong - bc it would pass empty values and wipe the actual information
+							echo $prependStart.'<input type="'.$args['subtype'].'" id="'.$args['id'].'_disabled" '.$step.' '.$max.' '.$min.' name="'.$args['name'].'_disabled" size="40" disabled value="' . esc_attr($value) . '" /><input type="hidden" id="'.$args['id'].'" '.$step.' '.$max.' '.$min.' name="'.$args['name'].'" size="40" value="' . esc_attr($value) . '" />'.$prependEnd;
+						}else{
+							echo $prependStart.'<input type="'.$args['subtype'].'" id="'.$args['id'].'" "'.$args['required'].'" '.$step.' '.$max.' '.$min.' name="'.$args['name'].'" size="40" value="' . esc_attr($value) . '" />'.$prependEnd;
+						}
+						/*<input required="required" '.$disabled.' type="number" step="any" id="'.$this->plugin_name.'_cost2" name="'.$this->plugin_name.'_cost2" value="' . esc_attr( $cost ) . '" size="25" /><input type="hidden" id="'.$this->plugin_name.'_cost" step="any" name="'.$this->plugin_name.'_cost" value="' . esc_attr( $cost ) . '" />*/
+					}else{
+						$checked = ($value) ? 'checked' : '';
+						echo '<input type="'.$args['subtype'].'" id="'.$args['id'].'" "'.$args['required'].'" name="'.$args['name'].'" size="40" value="1" '.$checked.' />';
+					}
+					break;
+				default:
+					# code...
+					break;
 			}
 		}
 
@@ -594,6 +823,7 @@ if(!class_exists('R3BLCPTUI')) {
 					case 'search':
 					case 'archive':
 					case 'public':
+					case 'image':
 					default:
 						// No validation needed
 						break;
@@ -616,6 +846,7 @@ if(!class_exists('R3BLCPTUI')) {
 					'search'				=> $this->checked($_REQUEST['search']),
 					'archive'				=> $this->checked($_REQUEST['archive']),
 					'public'				=> $this->checked($_REQUEST['public']),
+					'image'					=> $this->checked($_REQUEST['image']),
 				];
 
 				// Submit to DB
@@ -683,6 +914,22 @@ if(!class_exists('R3BLCPTUI')) {
 		}
 
 		/**
+		 * * AJAX Get Font Awesome API Token
+		 * 
+		 * Method that retrieves the FA API Token from the options DB.
+		 */
+		public function AJAX_get_apiTokenFA() {
+			$action = 'r3blcptui_validate';
+			$nonce = 'nonce';
+			if(!check_ajax_referer($action, $nonce, false)) {
+				wp_send_json_error('Nonce Failed', 500);
+			}
+
+			$apiToken = get_option('r3blcptui_fa_token','');
+			wp_send_json_success($apiToken, 200);
+		}
+
+		/**
 		 * * Check Unique
 		 * 
 		 * Method that checks if the submitted slug is unique against the DB. 
@@ -724,6 +971,143 @@ if(!class_exists('R3BLCPTUI')) {
 			}else{
 				return ($flag === true) ? '' : false;
 			}
+		}
+
+		/**
+		 * * Add Custom Columns to POSTS & PAGES
+		 * 
+		 * Method that adds a custom column structure for admin list pages.
+		 * 
+		 */
+		public function addColumns($columns) {
+			$PT = $_GET['post_type'];
+			$pubs = get_post_types(['public'=>true]);
+			unset($pubs[array_search('attachment', $pubs)]);
+			unset($columns['date']);
+			unset($columns['tags']);
+			unset($columns['comments']);
+			$pubs[] = 'people';
+
+			if(in_array($PT, $pubs) || $PT === false || in_array($PT, $this->CPTSwIMGS)) {
+				$columns['r3blcptui_thumb'] = __('Image');
+			}
+
+			if($_GET['post_type'] != 'page') {
+				$columns['r3blcptui_row'] = '#';
+			}
+			$columns['r3blcptui_date'] = 'Created';
+			$columns['r3blcptui_updated'] = 'Modified';
+
+			return $columns;
+		}
+
+		/**
+		 * * Show custom column
+		 * 
+		 * Method that formats the data for each column
+		 */
+		public function showColumn($columns, $id) {
+			global $wp_query;
+			$posts = $wp_query->get_posts();
+			//var_dump($posts);
+			//var_dump($id);
+		
+			$format = 'm/d/Y \a\t '.get_option( 'time_format' );
+		
+			switch($columns){
+				case 'r3blcptui_row':
+					echo $this->getPostIndexValue($posts, $id);
+					break;
+				case 'r3blcptui_thumb':
+					if( function_exists( 'the_post_thumbnail' ) ) {
+						echo the_post_thumbnail( 'r3blcptui-featured-image' );
+					}
+					break;
+				case 'r3blcptui_date':
+					echo get_the_date($format);
+					break;
+				case 'r3blcptui_updated':
+					echo get_the_modified_date($format);
+					break;
+			}
+		}
+
+		/**
+		 * * Get POST index value
+		 * 
+		 * Method that allows for showing row numbers in the admin 
+		 * backend for posts and pages list tables.
+		 */
+		public function getPostIndexValue($posts, $id) {
+			$i = 1;
+			foreach($posts as $k => $post) {
+				if(isset($post->ID)) {
+					if($id == $post->ID) {
+						return $k + 1;
+					}
+				}else{
+					if($id == $k) {
+							return $i;
+					}
+				}
+				$i++;
+			}
+			return false;
+		}
+
+		/**
+		 * * Column Order
+		 * 
+		 * Method that re-arranges the column order
+		 */
+		public function columnOrder($columns) {
+			$PT = $_GET['post_type'];
+			$pubs = get_post_types(['public'=>true]);
+			unset($pubs[array_search('attachment', $pubs)]);// Remove attachment
+			$pubs[] = 'people';
+			
+			if($PT != 'page') {
+				$columns = $this->moveColumns($columns, 'r3blcptui_row', 'title');
+			}
+		
+			if(in_array($PT, $pubs) || $PT === false || in_array($PT, $this->CPTSwIMGS)) {
+				$columns = $this->moveColumns($columns, 'r3blcptui_thumb', 'title');
+			}
+		
+			$columns = $this->moveColumns($columns, 'r3blcptui_date', 'wpseo-score');
+			$columns = $this->moveColumns($columns, 'r3blcptui_updated', 'wpseo-score');
+		
+			return $columns;
+		}
+
+		/**
+		 * * Move columns
+		 * 
+		 * Method that handles the column arrangement
+		 * 
+		 */
+		public function moveColumns($columns, $move, $before) {
+			foreach( $columns as $key => $value ) {
+				if($key == $before) {
+					$n_columns[$move] = $move;
+				}
+				
+				$n_columns[$key] = $value;
+			}
+			
+			return $n_columns;
+		}
+
+		/**
+		 * * Sortable Columns
+		 * 
+		 * Method that sets the new custom columns as sortable
+		 */
+		function columnSortable( $columns ) {
+			$columns['r3blcptui_date'] = 'date';
+			$columns['r3blcptui_updated'] = 'modified';
+		
+			return $columns;
 		}
 	}
 

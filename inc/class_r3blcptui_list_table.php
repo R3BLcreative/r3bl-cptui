@@ -323,6 +323,11 @@ class R3BLCPTUI_List_Table extends WP_List_Table {
 			$options .= '<span class="dashicons dashicons-lock r3bl-option-icon" title="Admin Only"></span>';
 		}
 
+		// Featured Image
+		if($item['image'] == true) {
+			$options .= '<span class="dashicons dashicons-format-image r3bl-option-icon" title="Has Featured Image"></span>';
+		}
+
 		$options .= '</div>';
 		return $options;
 	}

@@ -29,4 +29,14 @@
 		});
 		return false;
 	});
+
+	// COLOR PICKER
+	$('#color-picker').spectrum({
+		type: "text",
+		showPalette: false,
+		togglePaletteOnly: true,
+		hideAfterPaletteSelect: true,
+		showInput: true,
+		showInitial: true
+	});
 }(jQuery));

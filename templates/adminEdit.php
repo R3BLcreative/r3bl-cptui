@@ -169,6 +169,16 @@
 			</div>
 		</div>
 
+		<!-- \\\\\\\\\\\\\\ FEATURED IMAGE \\\\\\\\\\\\\\\\\ -->
+		<div class="wrap c-admin__field c-admin__field--qrtr">
+			<p class="c-instructions">Will this CPT have a featured image?</p>
+			<div class="c-check-field">
+				<input id="cpt_image" class="c-check-field__input" type="checkbox" name="cpt_image" <? echo $this->checked($item['image'], true); ?> />
+				<label for="cpt_image" class="c-check-field__decor" aria-hidden="true" role="presentation"></label>
+				<label for="cpt_image" class="c-check-field__label">Featured Image</label>
+			</div>
+		</div>
+
 		<!-- \\\\\\\\\\\\\\ TAXONOMIES \\\\\\\\\\\\\\\\\ -->
 		<div class="c-admin__field c-admin__field--full c-admin__field--repeat taxonomies">
 			<label class="c-label">Taxonomies:</label>

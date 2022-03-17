@@ -41,6 +41,7 @@
 			search: $('#cpt_search').prop('checked'),
 			archive: $('#cpt_archive').prop('checked'),
 			public: $('#cpt_public').prop('checked'),
+			image: $('#cpt_image').prop('checked'),
 			taxonomies: taxs,
 		};
 

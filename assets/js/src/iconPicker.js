@@ -4,7 +4,8 @@
 	$.fn.iconPicker = function () {
 		return this.each(async function() {
 			var version = '5.15.4';
-			var access = await getToken();
+			var APItoken = await getAPItoken();
+			var access = await getToken(APItoken.data);
 			var token = access.access_token;
 			var r = await getIcons(token);
 			var icons = r.data.release.icons;
@@ -142,15 +143,29 @@
 				});
 			}
 
-			function getToken() {
+			function getToken(APItoken) {
 				// Get access token with API Token
 				return $.ajax({
 					url: 'https://api.fontawesome.com/token',
 					type: 'post',
 					dataType: 'json',
 					headers: {
-						"Authorization": "Bearer D16F819E-5DA9-43D5-8586-4275FABF25BA"
+						"Authorization": "Bearer "+APItoken
 					}
+				});
+			}
+
+			function getAPItoken() {
+				// Get API Token from WordPress Options
+				var postData = {
+					action: 'r3blcptui_getAPItoken',
+					nonce: $('#_wp_nonce_r3blcptui_validate').val()
+				};
+
+				return $.ajax({
+					url: r3blcptui_object.ajax_url,
+					type: 'post',
+					data: postData
 				});
 			}
 		});
