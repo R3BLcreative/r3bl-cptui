@@ -5,7 +5,7 @@
  * Plugin Name: R3BL CPT UI
  * Plugin URI: https://r3blcreative.com
  * Description: Enables a quick and easy UI that creates custom post types.
- * Version: 1.0.0
+ * Version: 1.0.1
  * Author: James Cook
  * Author URI: https://r3blcreative.com
  * License: GPL2
@@ -86,7 +86,7 @@ if(!class_exists('R3BLCPTUI')) {
 				// FILTERS
 				add_filter('set-screen-option', [$this,'r3blcptui_set_option'], 10, 3);
 				add_filter('default_hidden_columns', [$this, 'default_hidden_columns'], 10, 2);
-				add_filter('plugin_action_links_r3blcptui/r3blcptui.php',[$this,'settingsLink']);
+				add_filter('plugin_action_links_r3bl-cptui/r3bl-cptui.php',[$this,'settingsLink']);
 				// Custom Columns
 				add_filter('manage_posts_columns', [$this, 'addColumns'], 2);
 				add_filter('manage_posts_columns', [$this, 'columnOrder']);
