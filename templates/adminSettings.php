@@ -27,20 +27,38 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 ?>
+<div id="poststuff" class="wrap">
+	<div class="r3bl-admin-title-wrap">
+		<div class="dashicons dashicons-admin-settings r3bl-admin-title-icon"></div>
+		<h1 class="heading r3bl-admin-title"><? echo get_admin_page_title(); ?></h1>
+	</div>
 
-<div class="r3bl-admin-title-wrap wrap">
-	<div class="dashicons dashicons-admin-settings r3bl-admin-title-icon"></div>
-	<h1 class="heading r3bl-admin-title"><? echo get_admin_page_title(); ?></h1>
-	<hr class="wp-header-end">
-</div>
-
-<div class="r3blcptui-table-wrap wrap">
 	<? settings_errors(); ?>
-	<form method="POST" action="options.php">
-		<? 
-		settings_fields( 'r3blcptui_settings' );
-		do_settings_sections( 'r3blcptui_settings' );
-		submit_button();
-		?>
+	<form method="post" action="options.php" novalidate="novalidate">
+		<div class="acf-columns-2">
+			<div class="acf-column-1">
+				<div id="acf_after_title-sortables" class="meta-box-sortables"></div>
+				<? 
+				settings_fields( 'r3blcptui_settings' );
+				do_settings_sections( 'r3blcptui_settings' );
+				?>
+			</div>
+			<div class="acf-column-2">
+				<div id="side-sortables" class="meta-box-sortables">
+					<div id="submitdiv" class="postbox ">
+						<div class="postbox-header">
+							<h2 class="hndle">Actions</h2>
+						</div>
+						<div class="inside">
+        			<div id="major-publishing-actions">
+            		<div id="publishing-action">
+									<? submit_button(null, 'primary', 'submit', false, null); ?>
+								</div>
+		            <div class="clear"></div>
+    		    </div>
+        	</div>
+				</div>
+			</div>
+		</div>
 	</form>
 </div>

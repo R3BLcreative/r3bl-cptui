@@ -309,7 +309,7 @@ if(!class_exists('R3BLCPTUI')) {
 			wp_enqueue_style(
 				'r3blcptui-css',
 				plugin_dir_url(__FILE__).'assets/css/r3blcptui.css',
-				['dashicons'],
+				['dashicons','acf-extended-ui'],
 				strtotime('now')
 			);
 		}
@@ -585,6 +585,8 @@ if(!class_exists('R3BLCPTUI')) {
 						'subtype'						=> 'text',
 						'id'								=> 'r3blcptui_fa_token',
 						'name'							=> 'r3blcptui_fa_token',
+						'label_for'					=> 'r3blcptui_fa_token',
+						'description'				=> '',
 						'required'					=> false,
 						'get_options_list'	=> '',
 						'value_type'				=> 'normal',
@@ -600,6 +602,8 @@ if(!class_exists('R3BLCPTUI')) {
 						'subtype'						=> 'text',
 						'id'								=> 'color-picker',
 						'name'							=> 'r3blcptui_icon_color',
+						'label_for'					=> 'r3blcptui_icon_color',
+						'description'				=> '',
 						'required'					=> false,
 						'get_options_list'	=> '',
 						'value_type'				=> 'normal',
@@ -609,12 +613,14 @@ if(!class_exists('R3BLCPTUI')) {
 				],
 				[
 					'id'		=> 'r3blcptui_custom_columns_posts',
-					'label'	=> 'Custom Columns for Posts',
+					'label'	=> 'Custom Columns/Featured Image for Posts',
 					'args'	=> [
 						'type'							=> 'input',
 						'subtype'						=> 'checkbox',
 						'id'								=> 'r3blcptui_custom_columns_posts',
 						'name'							=> 'r3blcptui_custom_columns_posts',
+						'label_for'					=> 'r3blcptui_custom_columns_posts',
+						'description'				=> '',
 						'required'					=> false,
 						'get_options_list'	=> '',
 						'value_type'				=> 'normal',
@@ -624,12 +630,14 @@ if(!class_exists('R3BLCPTUI')) {
 				,
 				[
 					'id'		=> 'r3blcptui_custom_columns_pages',
-					'label'	=> 'Custom Columns for Pages',
+					'label'	=> 'Custom Columns/Featured Image for Pages',
 					'args'	=> [
 						'type'							=> 'input',
 						'subtype'						=> 'checkbox',
 						'id'								=> 'r3blcptui_custom_columns_pages',
 						'name'							=> 'r3blcptui_custom_columns_pages',
+						'label_for'					=> 'r3blcptui_custom_columns_pages',
+						'description'				=> '',
 						'required'					=> false,
 						'get_options_list'	=> '',
 						'value_type'				=> 'normal',
@@ -663,7 +671,7 @@ if(!class_exists('R3BLCPTUI')) {
 		 * 
 		 */
 		public function settingsSectionDescription() {
-			echo '<p></p>';
+			echo '';
 		}
 
 		/**
