@@ -1,0 +1,13 @@
+.DS_Store
+_wpeprivate
+.vscode
+.wpe-devkit
+.wpengine-conf
+.wpe-pull-ignore
+.wpe-push-ignore
+wp-config.php
+/wp-content/advanced-cache.php
+/wp-content/bps-backup
+/wp-content/cache
+/wp-content/upgrade
+/wp-content/uploads
