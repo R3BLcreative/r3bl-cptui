@@ -27,7 +27,7 @@ class R3BLCPTUI_List_Table extends WP_List_Table {
 	 */
 	function extra_tablenav($which) {
 		if($which == 'top') {
-			if($_REQUEST['view'] == 'trash'):
+			if(isset($_REQUEST['view']) && $_REQUEST['view'] == 'trash'):
 			?>
 			<a href="<? echo admin_url('admin.php'); ?>?page=r3blcptui-list&view=all&action=empty" class="r3bl-admin-empty-btn
 			button apply">Empty Trash</a>
