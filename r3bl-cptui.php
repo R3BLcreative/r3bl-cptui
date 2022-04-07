@@ -144,7 +144,7 @@ if(!class_exists('R3BLCPTUI')) {
 						'pub'		=> $cpt['public']
 					];
 					$this->CPTS[] = $cpt;
-					if($cpt['img'] == true) {
+					if(isset($cpt['img']) && $cpt['img'] == true) {
 						$this->CPTSwIMGS[] = $cpt['slug'];
 					}
 
