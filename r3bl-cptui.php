@@ -624,7 +624,8 @@ if(!class_exists('R3BLCPTUI')) {
 						'required'					=> false,
 						'get_options_list'	=> '',
 						'value_type'				=> 'normal',
-						'wp_data'						=> 'option'
+						'wp_data'						=> 'option',
+						'default'						=> ''
 					]
 				]
 				,
@@ -641,7 +642,8 @@ if(!class_exists('R3BLCPTUI')) {
 						'required'					=> false,
 						'get_options_list'	=> '',
 						'value_type'				=> 'normal',
-						'wp_data'						=> 'option'
+						'wp_data'						=> 'option',
+						'default'						=> ''
 					]
 				]
 			];

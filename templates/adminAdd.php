@@ -47,7 +47,7 @@
 		<!-- \\\\\\\\\\\\\\ TITLE \\\\\\\\\\\\\\\\\ -->
 		<div class="wrap c-admin__field c-admin__field--half">
 			<label for="admin_title" class="c-label">Admin Title <span>*</span></label>
-			<input id="admin_title" class="c-input-field" type="text" name="admin_title" placeholder="CPT" value="<? echo $item['title']; ?>" />
+			<input id="admin_title" class="c-input-field" type="text" name="admin_title" placeholder="CPT" value="" />
 			<p class="c-instructions">
 				The reference title for display in the WordPress Admin.
 			</p>
@@ -56,7 +56,7 @@
 		<!-- \\\\\\\\\\\\\\ SLUG \\\\\\\\\\\\\\\\\ -->
 		<div class="wrap c-admin__field c-admin__field--half">
 			<label for="cpt_slug" class="c-label">Slug <span>*</span></label>
-			<input id="cpt_slug" class="c-input-field validate-slug" type="text" name="cpt_slug" placeholder="cpt-slug" value="<? echo $item['slug']; ?>" data-type="cpt" />
+			<input id="cpt_slug" class="c-input-field validate-slug" type="text" name="cpt_slug" placeholder="cpt-slug" value="" data-type="cpt" />
 			<div class="slug-notifications"></div>
 			<p class="c-instructions">
 				The unique CPT reference key for registering this CPT. Should start with a letter and only contain letters, numbers, dashes, and/or underscores.
@@ -66,7 +66,7 @@
 		<!-- \\\\\\\\\\\\\\ SINGULAR \\\\\\\\\\\\\\\\\ -->
 		<div class="wrap c-admin__field c-admin__field--half">
 			<label for="cpt_singular" class="c-label">Singular <span>*</span></label>
-			<input id="cpt_singular" class="c-input-field" type="text" name="cpt_singular" placeholder="cpt" value="<? echo $item['singular']; ?>" />
+			<input id="cpt_singular" class="c-input-field" type="text" name="cpt_singular" placeholder="cpt" value="" />
 			<p class="c-instructions">
 				The singular form of the CPT for creating CPT labels.
 			</p>
@@ -75,7 +75,7 @@
 		<!-- \\\\\\\\\\\\\\ PLURAL \\\\\\\\\\\\\\\\\ -->
 		<div class="wrap c-admin__field c-admin__field--half">
 			<label for="cpt_plural" class="c-label">Plural <span>*</span></label>
-			<input id="cpt_plural" class="c-input-field" type="text" name="cpt_plural" placeholder="cpts" value="<? echo $item['plural']; ?>" />
+			<input id="cpt_plural" class="c-input-field" type="text" name="cpt_plural" placeholder="cpts" value="" />
 			<p class="c-instructions">
 				The plural form of the CPT for creating CPT labels.
 			</p>
@@ -84,7 +84,7 @@
 		<!-- \\\\\\\\\\\\\\ POSITION \\\\\\\\\\\\\\\\\ -->
 		<div class="wrap c-admin__field c-admin__field--half">
 			<label for="cpt_position" class="c-label">Menu Position <span>*</span></label>
-			<input id="cpt_position" class="c-input-field" type="text" name="cpt_position" placeholder="20" value="<? echo $item['position']; ?>" />
+			<input id="cpt_position" class="c-input-field" type="text" name="cpt_position" placeholder="20" value="" />
 			<p class="c-instructions">
 				The admin menu position. Follows the numeric structure outlined in the WP doc <a href="https://developer.wordpress.org/reference/functions/add_menu_page/" target="_blank">here</a>.
 			</p>
@@ -100,22 +100,22 @@
 				<button class="button iconPicker c-icon-picker-btn c-button c-icon-btn" type="button" data-preview="#cpt_icon_preview" data-target="#cpt_icon"><i class="far fa-search-plus"></i></button>
 
 				<!-- PREVIEW -->
-				<i id="cpt_icon_preview" class="<? echo $icon['style']; ?>"></i>
+				<i id="cpt_icon_preview" class=""></i>
 
 				<!-- ID -->
-				<input type="hidden" id="cpt_icon_id" name="cpt_icon_id" value="<? echo $icon['id']; ?>" />
+				<input type="hidden" id="cpt_icon_id" name="cpt_icon_id" value="" />
 
 				<!-- UNICODE -->
-				<input type="hidden" id="cpt_icon_unicode" name="cpt_icon_unicode" value="<? echo $icon['unicode']; ?>" />
+				<input type="hidden" id="cpt_icon_unicode" name="cpt_icon_unicode" value="" />
 
 				<!-- LABEL -->
-				<input type="hidden" id="cpt_icon_label" name="cpt_icon_label" value="<? echo $icon['label']; ?>" />
+				<input type="hidden" id="cpt_icon_label" name="cpt_icon_label" value="" />
 
 				<!-- STYLES -->
-				<input type="hidden" id="cpt_icon_styles" name="cpt_icon_styles" value="<? echo $icon['styles']; ?>" />
+				<input type="hidden" id="cpt_icon_styles" name="cpt_icon_styles" value="" />
 
 				<!-- STYLE -->
-				<input type="hidden" id="cpt_icon_style" name="cpt_icon_style" value="<? echo $icon['style']; ?>" />
+				<input type="hidden" id="cpt_icon_style" name="cpt_icon_style" value="" />
 			</div>
 			<p class="c-instructions">
 				The admin menu icon. Use Font Awesome icons via the search button.
@@ -126,7 +126,7 @@
 		<div class="wrap c-admin__field c-admin__field--qrtr">
 			<p class="c-instructions">Do you want this CPT to have parent/child relationships?</p>
 			<div class="c-check-field">
-				<input id="cpt_hierarchical" class="c-check-field__input" type="checkbox" name="cpt_hierarchical" <? echo $this->checked($item['hierarchical']); ?> />
+				<input id="cpt_hierarchical" class="c-check-field__input" type="checkbox" name="cpt_hierarchical" />
 				<label for="cpt_hierarchical" class="c-check-field__decor" aria-hidden="true" role="presentation"></label>
 				<label for="cpt_hierarchical" class="c-check-field__label">Hierarchical</label>
 			</div>
@@ -136,7 +136,7 @@
 		<div class="wrap c-admin__field c-admin__field--qrtr">
 			<p class="c-instructions">Do you want this CPT to show up in the frontend search results?</p>
 			<div class="c-check-field">
-				<input id="cpt_search" class="c-check-field__input" type="checkbox" name="cpt_search" <? echo $this->checked($item['search']); ?> />
+				<input id="cpt_search" class="c-check-field__input" type="checkbox" name="cpt_search" />
 				<label for="cpt_search" class="c-check-field__decor" aria-hidden="true" role="presentation"></label>
 				<label for="cpt_search" class="c-check-field__label">Searchable</label>
 			</div>
@@ -146,7 +146,7 @@
 		<div class="wrap c-admin__field c-admin__field--qrtr">
 			<p class="c-instructions">Does this CPT need to have a public archive page? Uses slug as the permalink.</p>
 			<div class="c-check-field">
-				<input id="cpt_archive" class="c-check-field__input" type="checkbox" name="cpt_archive" <? echo $this->checked($item['archive']); ?> />
+				<input id="cpt_archive" class="c-check-field__input" type="checkbox" name="cpt_archive" />
 				<label for="cpt_archive" class="c-check-field__decor" aria-hidden="true" role="presentation"></label>
 				<label for="cpt_archive" class="c-check-field__label">Has Archive</label>
 			</div>
@@ -156,7 +156,7 @@
 		<div class="wrap c-admin__field c-admin__field--qrtr">
 			<p class="c-instructions">Is this a public CPT that can be viewed on the frontend?</p>
 			<div class="c-check-field">
-				<input id="cpt_public" class="c-check-field__input" type="checkbox" name="cpt_public" <? echo $this->checked($item['public']); ?> />
+				<input id="cpt_public" class="c-check-field__input" type="checkbox" name="cpt_public" />
 				<label for="cpt_public" class="c-check-field__decor" aria-hidden="true" role="presentation"></label>
 				<label for="cpt_public" class="c-check-field__label">Public</label>
 			</div>
@@ -166,7 +166,7 @@
 		<div class="wrap c-admin__field c-admin__field--qrtr">
 			<p class="c-instructions">Will this CPT have a featured image?</p>
 			<div class="c-check-field">
-				<input id="cpt_image" class="c-check-field__input" type="checkbox" name="cpt_image" <? echo $this->checked($item['image']); ?> />
+				<input id="cpt_image" class="c-check-field__input" type="checkbox" name="cpt_image" />
 				<label for="cpt_image" class="c-check-field__decor" aria-hidden="true" role="presentation"></label>
 				<label for="cpt_image" class="c-check-field__label">Featured Image</label>
 			</div>

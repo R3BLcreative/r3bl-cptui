@@ -247,7 +247,7 @@ class R3BLCPTUI_List_Table extends WP_List_Table {
 		}
 
 		// Trash/Delete Permanently Action
-		if($_REQUEST['view'] == 'trash') {
+		if(isset($_REQUEST['view']) && $_REQUEST['view'] == 'trash') {
 			$actions['restore'] = sprintf($alink, 'r3blcptui-list', 'restore', $item['id'], 'Restore');
 			$actions['delete'] = sprintf($alink, 'r3blcptui-list', 'delete', $item['id'], 'Delete Permanently');
 		}else{
@@ -255,7 +255,7 @@ class R3BLCPTUI_List_Table extends WP_List_Table {
 		}
 
 		$tlink = '<a href="'.admin_url('admin.php').'?page=r3blcptui-edit&id=%d">%s</a>%s%s';
-		$trashed = ($_REQUEST['view'] != 'trash' && $item['status'] == 'trash') ? ' - <em>Trashed</em>' : '';
+		$trashed = (isset($_REQUEST['view']) && $_REQUEST['view'] != 'trash' && $item['status'] == 'trash') ? ' - <em>Trashed</em>' : '';
 		return sprintf($tlink, $item['id'], $item['title'], $trashed, $this->row_actions($actions));
 	}
 
@@ -355,7 +355,7 @@ class R3BLCPTUI_List_Table extends WP_List_Table {
 	 * 
 	 */
 	public function get_bulk_actions() {
-		if($_REQUEST['view'] != 'trash') {
+		if(isset($_REQUEST['view']) && $_REQUEST['view'] != 'trash') {
 			return $actions = [
 				'trash'	=> 'Move to Trash'
 			];

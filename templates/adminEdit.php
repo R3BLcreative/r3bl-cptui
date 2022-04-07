@@ -43,11 +43,11 @@
 	<? wp_nonce_field('r3blcptui_validate', '_wp_nonce_r3blcptui_validate'); ?>
 	<? wp_nonce_field('r3blcptui_validate_inline', '_wp_nonce_r3blcptui_validate_inline'); ?>
 	<div id="r3blcptui-notifications" class="user-notifications">
-		<? if($_REQUEST['updated'] == 1): ?>
+		<? if(isset($_REQUEST['updated']) && $_REQUEST['updated'] == 1): ?>
 			<div class="r3bl-notice notice-success">
 				<h3>Your CPT has been updated successfully.</h3>
 			</div>
-		<? elseif($_REQUEST['ref'] == 'add'): ?>
+		<? elseif(isset($_REQUEST['ref']) && $_REQUEST['ref'] == 'add'): ?>
 			<div class="r3bl-notice notice-success">
 				<h3>Your CPT has been added successfully.</h3>
 			</div>
