@@ -155,6 +155,7 @@ if(!class_exists('R3BLCPTUI')) {
 
 			// register the CPTS & TAXS
 			$CPT->registerCPTS();
+			// flush_rewrite_rules();
 		}
 
 		/**
@@ -170,7 +171,7 @@ if(!class_exists('R3BLCPTUI')) {
 		 * * Deactivation Method
 		 */
 		public function deactivate() {
-			// Something
+			flush_rewrite_rules();
 		}
 
 		/**

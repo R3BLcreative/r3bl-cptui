@@ -35,9 +35,9 @@ class R3BLCPTUI_CPTS {
 			'label'								=> ucwords($p),
 			'labels'							=> $this->getLabels($s, $p),
 			'description'					=> '',
-			'public'							=> $pub,
-			'hierarchical'				=> $hier,
-			'exclude_from_search'	=> $srch,
+			'public'							=> (bool) $pub,
+			'hierarchical'				=> (bool) $hier,
+			'exclude_from_search'	=> (bool) $srch,
 			'publicly_queryable'	=> true,
 			'show_ui'							=> true,
 			'show_in_menu'				=> true,
@@ -55,11 +55,11 @@ class R3BLCPTUI_CPTS {
 				'thumbnail',
 			],
 			'taxonomies'					=> $this->getTaxList($taxs),
-			'has_archive'					=> $arch,
+			'has_archive'					=> (bool) $arch,
 			'rewrite'							=> [
-				'with_front'	=> false,
-				'feeds'				=> false,
-				'pages'				=> true,
+				'with_front'	=> (bool) $arch,
+				'feeds'				=> (bool) $arch,
+				'pages'				=> (bool) $arch,
 			],
 			'query_var'						=> $k,
 			'can_export'					=> true,
@@ -151,7 +151,7 @@ class R3BLCPTUI_CPTS {
 				'description'					=> '',
 				'public'							=> true,
 				'publicly_queryable'	=> true,
-				'hierarchical'				=> $hier,
+				'hierarchical'				=> (bool) $hier,
 				'show_ui'							=> true,
 				'show_in_menu'				=> true,
 				'show_in_nav_menus'		=> true,
@@ -165,21 +165,21 @@ class R3BLCPTUI_CPTS {
 				//'meta_box_sanitize_cb'	=> '',
 				//'capabilities'			=> [],
 				'rewrite'							=> [
-					//'slug'				=> '',
-					'with_front'		=> false,
-					'hierarchical'	=> false,
+					'slug'					=> $k,
+					'with_front'		=> true,
+					'hierarchical'	=> (bool) $hier,
 					//'ep_mask'			=> ''
 				],
-				//'query_var'				=> '',
+				'query_var'						=> $k,
 				//'update_count_callback'	=> '',
 				'default_term'				=> [
 					'name'				=> 'Uncategorized',
 					'slug'				=> 'uncategorized',
 					'description'	=> sprintf('The default %s taxonomy for %s', $s, $cpt)
 				],
-				'sort'						=> true,
-				//'args'					=> [],
-				//'_builtin'				=> ''
+				'sort'								=> true,
+				//'args'							=> [],
+				//'_builtin'					=> ''
 			];
 			
 			$this->TAXS[$k] = [
