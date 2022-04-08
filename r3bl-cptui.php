@@ -45,7 +45,7 @@ use function FortAwesome\fa;
 
 if(!class_exists('R3BLCPTUI')) {
 	class R3BLCPTUI {
-		public $version = '1.0.1';
+		public $version = '1.0.3';
 		public $voption = 'r3blcptui_version';
 		public $table = 'r3blcptui';
 		public $CPTS = [];
@@ -228,8 +228,8 @@ if(!class_exists('R3BLCPTUI')) {
 				singular varchar(30) NOT NULL,
 				plural varchar(30) NOT NULL,
 				position tinyint(2) NOT NULL,
-				icon json DEFAULT (JSON_OBJECT()) NOT NULL,
-				taxonomies json DEFAULT (JSON_OBJECT()) NOT NULL,
+				icon varchar(255) NOT NULL,
+				taxonomies varchar(255) NOT NULL,
 				hierarchical boolean DEFAULT 0 NOT NULL,
 				search boolean DEFAULT 0 NOT NULL,
 				archive boolean DEFAULT 0 NOT NULL,
