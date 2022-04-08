@@ -138,10 +138,10 @@ if(!class_exists('R3BLCPTUI')) {
 						'pos'		=> (int) $cpt['position'],
 						'icn'		=> $style,
 						'taxs'	=> json_decode($cpt['taxonomies'], true),
-						'hier'	=> $cpt['hierarchical'],
-						'srch'	=> $cpt['search'],
-						'arch'	=> $cpt['archive'],
-						'pub'		=> $cpt['public']
+						'hier'	=> (bool) $cpt['hierarchical'],
+						'srch'	=> (bool) $cpt['search'],
+						'arch'	=> (bool) $cpt['archive'],
+						'pub'		=> (bool) $cpt['public']
 					];
 					$this->CPTS[] = $cpt;
 					if(isset($cpt['img']) && $cpt['img'] == true) {

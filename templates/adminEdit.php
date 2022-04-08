@@ -196,7 +196,7 @@
 						<div class="repeat-field-group">
 							<div class="row-num"><? echo $x; ?></div>
 							<div class="wrap repeat-field slug-max-width">
-								<input id="cpt_taxonomies_slug_<? echo $x; ?>" class="c-input-field" type="text" name="cpt_taxonomies_slug_<? echo $x; ?>" placeholder="Slug *" value="<? echo $taxs[$i]['k']; ?>" data-validate="0" disabled />
+								<input id="cpt_taxonomies_slug_<? echo $x; ?>" class="c-input-field" type="text" name="cpt_taxonomies_slug_<? echo $x; ?>" placeholder="Slug *" value="<? echo $taxs[$i]['k']; ?>" data-validate="0" />
 							</div>
 
 							<div class="wrap repeat-field">

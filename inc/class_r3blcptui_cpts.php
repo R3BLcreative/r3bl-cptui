@@ -35,9 +35,9 @@ class R3BLCPTUI_CPTS {
 			'label'								=> ucwords($p),
 			'labels'							=> $this->getLabels($s, $p),
 			'description'					=> '',
-			'public'							=> (bool) $pub,
-			'hierarchical'				=> (bool) $hier,
-			'exclude_from_search'	=> (bool) $srch,
+			'public'							=> $pub,
+			'hierarchical'				=> $hier,
+			'exclude_from_search'	=> $srch,
 			'publicly_queryable'	=> true,
 			'show_ui'							=> true,
 			'show_in_menu'				=> true,
@@ -55,11 +55,11 @@ class R3BLCPTUI_CPTS {
 				'thumbnail',
 			],
 			'taxonomies'					=> $this->getTaxList($taxs),
-			'has_archive'					=> (bool) $arch,
+			'has_archive'					=> $arch,
 			'rewrite'							=> [
-				'with_front'	=> (bool) $arch,
-				'feeds'				=> (bool) $arch,
-				'pages'				=> (bool) $arch,
+				'with_front'	=> $arch,
+				'feeds'				=> $arch,
+				'pages'				=> $arch,
 			],
 			'query_var'						=> $k,
 			'can_export'					=> true,
@@ -85,7 +85,7 @@ class R3BLCPTUI_CPTS {
 		}
 
 		foreach($this->TAXS as $t => $tax) {
-			register_taxonomy($t, $tax['cpt'], $tax['args']);
+			register_taxonomy(sanitize_key($t), $tax['cpt'], $tax['args']);
 		}
 
 		$oldCPTS = get_option('r3blcptui_cpts');
