@@ -1039,10 +1039,6 @@ if(!class_exists('R3BLCPTUI')) {
 				$columns['r3blcptui_thumb'] = __('Image');
 			}
 
-			if($PT != 'page') {
-				$columns['r3blcptui_row'] = '#';
-			}
-
 			$columns['r3blcptui_date'] = 'Created';
 			$columns['r3blcptui_updated'] = 'Modified';
 
@@ -1063,9 +1059,6 @@ if(!class_exists('R3BLCPTUI')) {
 			$format = 'm/d/Y \a\t '.get_option( 'time_format' );
 		
 			switch($columns){
-				case 'r3blcptui_row':
-					echo $this->getPostIndexValue($posts, $id);
-					break;
 				case 'r3blcptui_thumb':
 					if( function_exists( 'the_post_thumbnail' ) ) {
 						echo the_post_thumbnail( 'r3blcptui-featured-image' );
@@ -1120,10 +1113,6 @@ if(!class_exists('R3BLCPTUI')) {
 			$pubs = get_post_types(['public'=>true]);
 			unset($pubs[array_search('attachment', $pubs)]);// Remove attachment
 			$pubs[] = 'people';
-
-			if($PT != 'page') {
-				$columns = $this->moveColumns($columns, 'r3blcptui_row', 'title');
-			}
 
 			if(in_array($PT, $this->CPTSwIMGS) || $pages == true || $posts == true) {
 				$columns = $this->moveColumns($columns, 'r3blcptui_thumb', 'title');
