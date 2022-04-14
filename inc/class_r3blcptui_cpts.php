@@ -53,6 +53,7 @@ class R3BLCPTUI_CPTS {
 				'revisions',
 				'page-attributes',
 				'thumbnail',
+				'excerpt'
 			],
 			'taxonomies'					=> $this->getTaxList($taxs),
 			'has_archive'					=> $arch,
