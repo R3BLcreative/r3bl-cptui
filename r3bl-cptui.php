@@ -139,7 +139,7 @@ if(!class_exists('R3BLCPTUI')) {
 						'icn'		=> $style,
 						'taxs'	=> json_decode($cpt['taxonomies'], true),
 						'hier'	=> (bool) $cpt['hierarchical'],
-						'srch'	=> (bool) $cpt['search'],
+						'srch'	=> ($cpt['search'] == '1') ? false : true,
 						'arch'	=> (bool) $cpt['archive'],
 						'pub'		=> (bool) $cpt['public']
 					];
