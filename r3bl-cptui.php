@@ -78,16 +78,16 @@ if(!class_exists('R3BLCPTUI')) {
 				add_action('wp_ajax_r3blcptui_getAPItoken', [$this, 'AJAX_get_apiTokenFA']);
 				add_action('wp_ajax_r3blcptui_validate_inline', [$this, 'AJAX_validate_inline']);
 				// Custom Columns
-				add_action('manage_posts_custom_column',[$this, 'showColumn'],5,2);
+				// add_action('manage_posts_custom_column',[$this, 'showColumn'],5,2);
 
 				// FILTERS
 				add_filter('set-screen-option', [$this,'r3blcptui_set_option'], 10, 3);
 				add_filter('default_hidden_columns', [$this, 'default_hidden_columns'], 10, 2);
 				add_filter('plugin_action_links_r3bl-cptui/r3bl-cptui.php',[$this,'settingsLink']);
 				// Custom Columns
-				add_filter('manage_posts_columns', [$this, 'addColumns'], 2);
-				add_filter('manage_posts_columns', [$this, 'columnOrder']);
-				add_filter('manage_edit-post_sortable_columns',[$this, 'columnSortable']);
+				// add_filter('manage_posts_columns', [$this, 'addColumns'], 2);
+				// add_filter('manage_posts_columns', [$this, 'columnOrder']);
+				// add_filter('manage_edit-post_sortable_columns',[$this, 'columnSortable']);
 
 				// FONT AWESOME
 				add_action(
@@ -968,147 +968,6 @@ if(!class_exists('R3BLCPTUI')) {
 			}else{
 				return ($flag === true) ? '' : false;
 			}
-		}
-
-		/**
-		 * * Add Custom Columns to POSTS & PAGES
-		 * 
-		 * Method that adds a custom column structure for admin list pages.
-		 * 
-		 */
-		public function addColumns($columns) {
-			$PT = (isset($_GET['post_type'])) ? $_GET['post_type'] : 'post';
-			$pages = get_option('r3blcptui_custom_columns_pages');
-			$posts = get_option('r3blcptui_custom_columns_posts');
-
-			if($PT == 'page' && $pages == false || $PT == 'post' && $posts == false) {
-				return $columns;
-			}
-
-			$pubs = get_post_types(['public'=>true]);
-			unset($pubs[array_search('attachment', $pubs)]);
-			unset($columns['date']);
-			unset($columns['tags']);
-			unset($columns['comments']);
-			$pubs[] = 'people';
-
-			if(in_array($PT, $this->CPTSwIMGS) || $pages == true || $posts == true) {
-				$columns['r3blcptui_thumb'] = __('Image');
-			}
-
-			$columns['r3blcptui_date'] = 'Created';
-			$columns['r3blcptui_updated'] = 'Modified';
-
-			return $columns;
-		}
-
-		/**
-		 * * Show custom column
-		 * 
-		 * Method that formats the data for each column
-		 */
-		public function showColumn($columns, $id) {
-			global $wp_query;
-			$posts = $wp_query->get_posts();
-			//var_dump($posts);
-			//var_dump($id);
-		
-			$format = 'm/d/Y \a\t '.get_option( 'time_format' );
-		
-			switch($columns){
-				case 'r3blcptui_thumb':
-					if( function_exists( 'the_post_thumbnail' ) ) {
-						echo the_post_thumbnail( 'r3blcptui-featured-image' );
-					}
-					break;
-				case 'r3blcptui_date':
-					echo get_the_date($format);
-					break;
-				case 'r3blcptui_updated':
-					echo get_the_modified_date($format);
-					break;
-			}
-		}
-
-		/**
-		 * * Get POST index value
-		 * 
-		 * Method that allows for showing row numbers in the admin 
-		 * backend for posts and pages list tables.
-		 */
-		public function getPostIndexValue($posts, $id) {
-			$i = 1;
-			foreach($posts as $k => $post) {
-				if(isset($post->ID)) {
-					if($id == $post->ID) {
-						return $k + 1;
-					}
-				}else{
-					if($id == $k) {
-							return $i;
-					}
-				}
-				$i++;
-			}
-			return false;
-		}
-
-		/**
-		 * * Column Order
-		 * 
-		 * Method that re-arranges the column order
-		 */
-		public function columnOrder($columns) {
-			$PT = (isset($_GET['post_type'])) ? $_GET['post_type'] : 'post';
-			$pages = get_option('r3blcptui_custom_columns_pages');
-			$posts = get_option('r3blcptui_custom_columns_posts');
-
-			if($PT == 'page' && $pages == false || $PT == 'post' && $posts == false) {
-				return $columns;
-			}
-
-			$pubs = get_post_types(['public'=>true]);
-			unset($pubs[array_search('attachment', $pubs)]);// Remove attachment
-			$pubs[] = 'people';
-
-			if(in_array($PT, $this->CPTSwIMGS) || $pages == true || $posts == true) {
-				$columns = $this->moveColumns($columns, 'r3blcptui_thumb', 'title');
-			}
-
-			$columns = $this->moveColumns($columns, 'r3blcptui_date', 'wpseo-score');
-			$columns = $this->moveColumns($columns, 'r3blcptui_updated', 'wpseo-score');
-
-			return $columns;
-		}
-
-		/**
-		 * * Move columns
-		 * 
-		 * Method that handles the column arrangement
-		 * 
-		 */
-		public function moveColumns($columns, $move, $before) {
-			foreach( $columns as $key => $value ) {
-				if($key == $before) {
-					$n_columns[$move] = $move;
-				}
-				
-				$n_columns[$key] = $value;
-			}
-			
-			return $n_columns;
-		}
-
-		/**
-		 * * Sortable Columns
-		 * 
-		 * Method that sets the new custom columns as sortable
-		 */
-		function columnSortable( $columns ) {
-			$columns['r3blcptui_date'] = 'date';
-			$columns['r3blcptui_updated'] = 'modified';
-		
-			return $columns;
 		}
 	}
 
