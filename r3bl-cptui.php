@@ -79,9 +79,6 @@ if(!class_exists('R3BLCPTUI')) {
 				add_action('wp_ajax_r3blcptui_validate_inline', [$this, 'AJAX_validate_inline']);
 				// Custom Columns
 				add_action('manage_posts_custom_column',[$this, 'showColumn'],5,2);
-				if(get_option('r3blcptui_custom_columns_pages') == true) {
-					add_action('manage_pages_custom_column',[$this, 'showColumn'],5,2);
-				}
 
 				// FILTERS
 				add_filter('set-screen-option', [$this,'r3blcptui_set_option'], 10, 3);
@@ -91,11 +88,6 @@ if(!class_exists('R3BLCPTUI')) {
 				add_filter('manage_posts_columns', [$this, 'addColumns'], 2);
 				add_filter('manage_posts_columns', [$this, 'columnOrder']);
 				add_filter('manage_edit-post_sortable_columns',[$this, 'columnSortable']);
-				if(get_option('r3blcptui_custom_columns_pages') == true) {
-					add_filter('manage_pages_columns', [$this, 'addColumns'], 2);
-					add_filter('manage_pages_columns', [$this, 'columnOrder']);
-					add_filter('manage_edit-page_sortable_columns',[$this, 'columnSortable']);
-				}
 
 				// FONT AWESOME
 				add_action(
