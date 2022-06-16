@@ -611,41 +611,6 @@ if(!class_exists('R3BLCPTUI')) {
 						'wp_data'						=> 'option',
 						'default'						=> '#668edd'
 					]
-				],
-				[
-					'id'		=> 'r3blcptui_custom_columns_posts',
-					'label'	=> 'Custom Columns/Featured Image for Posts',
-					'args'	=> [
-						'type'							=> 'input',
-						'subtype'						=> 'checkbox',
-						'id'								=> 'r3blcptui_custom_columns_posts',
-						'name'							=> 'r3blcptui_custom_columns_posts',
-						'label_for'					=> 'r3blcptui_custom_columns_posts',
-						'description'				=> '',
-						'required'					=> false,
-						'get_options_list'	=> '',
-						'value_type'				=> 'normal',
-						'wp_data'						=> 'option',
-						'default'						=> ''
-					]
-				]
-				,
-				[
-					'id'		=> 'r3blcptui_custom_columns_pages',
-					'label'	=> 'Custom Columns/Featured Image for Pages',
-					'args'	=> [
-						'type'							=> 'input',
-						'subtype'						=> 'checkbox',
-						'id'								=> 'r3blcptui_custom_columns_pages',
-						'name'							=> 'r3blcptui_custom_columns_pages',
-						'label_for'					=> 'r3blcptui_custom_columns_pages',
-						'description'				=> '',
-						'required'					=> false,
-						'get_options_list'	=> '',
-						'value_type'				=> 'normal',
-						'wp_data'						=> 'option',
-						'default'						=> ''
-					]
 				]
 			];
 
