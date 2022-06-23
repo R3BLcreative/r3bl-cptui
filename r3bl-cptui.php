@@ -40,9 +40,6 @@ if(!class_exists('R3BLCPTUI_CPTS')) {
 	require_once(plugin_dir_path(__FILE__).'/inc/class_r3blcptui_cpts.php');
 }
 
-require_once __DIR__ . '/vendor/fortawesome/wordpress-fontawesome/index.php';
-use function FortAwesome\fa;
-
 if(!class_exists('R3BLCPTUI')) {
 	class R3BLCPTUI {
 		public $version = '1.0.3';
@@ -60,12 +57,8 @@ if(!class_exists('R3BLCPTUI')) {
 			}else{
 				// HOOKS
 				register_activation_hook(__FILE__, [$this, 'activate']);
-				register_activation_hook(__FILE__, 'FortAwesome\FontAwesome_Loader::initialize');
 
 				register_deactivation_hook(__FILE__, [$this, 'deactivate']);
-				register_deactivation_hook(__FILE__, 'FortAwesome\FontAwesome_Loader::maybe_deactivate');
-
-				register_uninstall_hook(__FILE__,'FortAwesome\FontAwesome_Loader::maybe_uninstall');
 
 				// ACTIONS
 				add_action('admin_init', [$this, 'settingsFields']);
@@ -77,27 +70,11 @@ if(!class_exists('R3BLCPTUI')) {
 				add_action('wp_ajax_r3blcptui_validate', [$this, 'AJAX_validate']);
 				add_action('wp_ajax_r3blcptui_getAPItoken', [$this, 'AJAX_get_apiTokenFA']);
 				add_action('wp_ajax_r3blcptui_validate_inline', [$this, 'AJAX_validate_inline']);
-				// Custom Columns
-				// add_action('manage_posts_custom_column',[$this, 'showColumn'],5,2);
 
 				// FILTERS
 				add_filter('set-screen-option', [$this,'r3blcptui_set_option'], 10, 3);
 				add_filter('default_hidden_columns', [$this, 'default_hidden_columns'], 10, 2);
 				add_filter('plugin_action_links_r3bl-cptui/r3bl-cptui.php',[$this,'settingsLink']);
-				// Custom Columns
-				// add_filter('manage_posts_columns', [$this, 'addColumns'], 2);
-				// add_filter('manage_posts_columns', [$this, 'columnOrder']);
-				// add_filter('manage_edit-post_sortable_columns',[$this, 'columnSortable']);
-
-				// FONT AWESOME
-				add_action(
-					'font_awesome_preferences',
-					function() {
-						fa()->register([
-							'name' => 'R3BL CPT UI'
-						]);
-					}
-				);
 
 				add_image_size('r3blcptui-featured-image', 60, 60, false);
 			}
@@ -264,6 +241,12 @@ if(!class_exists('R3BLCPTUI')) {
 		 */
 		public function adminScripts() {
 			// SCRIPTS
+			wp_enqueue_script(
+				'font-awesome-kit',
+				'https://kit.fontawesome.com/bafc0ba5a5.js',
+				[],
+				null
+			);
 			wp_enqueue_script(
 				'icon-picker',
 				plugin_dir_url( __FILE__ ).'assets/js/iconPicker.min.js',
